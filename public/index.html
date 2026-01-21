@@ -272,19 +272,38 @@
     // API 키 localStorage에서 불러오기
     function loadApiKeys() {
       const savedKeys = localStorage.getItem('kanta_api_keys');
+      addLog('localStorage 확인 중...', 'info');
+      
       if (savedKeys) {
         try {
-          apiKeys = JSON.parse(savedKeys);
-          if (apiKeys.assemblyAI && apiKeys.openAI) {
-            addLog('저장된 API 키를 불러왔습니다', 'success');
+          const parsed = JSON.parse(savedKeys);
+          addLog('저장된 키 발견: ' + JSON.stringify({
+            hasAssembly: !!parsed.assemblyAI,
+            hasOpenAI: !!parsed.openAI,
+            assemblyLength: parsed.assemblyAI?.length || 0,
+            openAILength: parsed.openAI?.length || 0
+          }), 'info');
+          
+          if (parsed.assemblyAI && parsed.openAI) {
+            apiKeys.assemblyAI = parsed.assemblyAI;
+            apiKeys.openAI = parsed.openAI;
+            
+            addLog('API 키 로드 완료!', 'success');
+            addLog('AssemblyAI 키: ' + apiKeys.assemblyAI.substring(0, 10) + '...', 'info');
+            addLog('OpenAI 키: ' + apiKeys.openAI.substring(0, 10) + '...', 'info');
+            
             document.getElementById('step0').classList.add('hidden');
             document.getElementById('apiKeyStatus').classList.remove('hidden');
             document.getElementById('step1').classList.remove('hidden');
             return true;
+          } else {
+            addLog('API 키가 불완전합니다', 'warning');
           }
         } catch (e) {
-          addLog('API 키 불러오기 실패', 'error');
+          addLog('API 키 파싱 실패: ' + e.message, 'error');
         }
+      } else {
+        addLog('저장된 API 키 없음', 'info');
       }
       return false;
     }
@@ -346,6 +365,8 @@
       localStorage.setItem('kanta_api_keys', JSON.stringify(apiKeys));
       
       addLog('API 키 저장 완료 (localStorage)', 'success');
+      addLog('AssemblyAI 키: ' + assemblyKey.substring(0, 10) + '... (길이: ' + assemblyKey.length + ')', 'info');
+      addLog('OpenAI 키: ' + openaiKey.substring(0, 10) + '... (길이: ' + openaiKey.length + ')', 'info');
       
       document.getElementById('step0').classList.add('hidden');
       document.getElementById('apiKeyStatus').classList.remove('hidden');
@@ -358,6 +379,8 @@
     changeApiBtn.addEventListener('click', function() {
       if (confirm('API 키를 변경하시겠습니까?')) {
         localStorage.removeItem('kanta_api_keys');
+        apiKeys = { assemblyAI: '', openAI: '' };
+        addLog('API 키 삭제됨', 'warning');
         location.reload();
       }
     });
@@ -477,6 +500,15 @@
     uploadBtn.addEventListener('click', async function() {
       addLog('=== 업로드 프로세스 시작 ===', 'info');
       addLog('총 ' + selectedFiles.length + '개 파일 업로드 시작', 'info');
+      addLog('현재 API 키 상태:', 'info');
+      addLog('- AssemblyAI: ' + (apiKeys.assemblyAI ? apiKeys.assemblyAI.substring(0, 10) + '...' : '없음'), apiKeys.assemblyAI ? 'success' : 'error');
+      addLog('- OpenAI: ' + (apiKeys.openAI ? apiKeys.openAI.substring(0, 10) + '...' : '없음'), apiKeys.openAI ? 'success' : 'error');
+      
+      if (!apiKeys.assemblyAI || !apiKeys.openAI) {
+        alert('API 키가 설정되지 않았습니다. API 키를 먼저 설정해주세요.');
+        addLog('API 키 누락으로 중단', 'error');
+        return;
+      }
       
       uploadBtn.disabled = true;
       goToStep(2);
@@ -499,7 +531,11 @@
             body: file
           });
           
-          if (!uploadResponse.ok) throw new Error('업로드 실패');
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            addLog(`[${episodeNum}회차] 업로드 실패: ${errorText}`, 'error');
+            throw new Error('업로드 실패: ' + errorText);
+          }
           
           const uploadData = await uploadResponse.json();
           addLog(`[${episodeNum}회차] 업로드 완료`, 'success');
@@ -520,6 +556,12 @@
               speech_model: 'best'
             })
           });
+          
+          if (!transcribeResponse.ok) {
+            const errorText = await transcribeResponse.text();
+            addLog(`[${episodeNum}회차] 음성 인식 요청 실패: ${errorText}`, 'error');
+            throw new Error('음성 인식 요청 실패: ' + errorText);
+          }
           
           const transcribeData = await transcribeResponse.json();
           const transcriptionId = transcribeData.id;
@@ -552,6 +594,7 @@
       addLog('=== 모든 파일 처리 완료 ===', 'success');
       displayEpisodeResults();
       goToStep(3);
+      uploadBtn.disabled = false;
     });
 
     function updateProgress(current, total, status) {
@@ -568,6 +611,11 @@
             const response = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptionId}`, {
               headers: { 'authorization': apiKeys.assemblyAI }
             });
+            
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error('상태 확인 실패: ' + errorText);
+            }
             
             const data = await response.json();
             addLog(`[${episodeNum}회차] 상태: ${data.status}`, 'info');
@@ -589,22 +637,44 @@
 
     async function translateText(text, episodeNum) {
       addLog(`[${episodeNum}회차] 번역 시작`, 'info');
+      addLog(`API 키 확인: ${apiKeys.openAI ? '있음 (' + apiKeys.openAI.substring(0, 10) + '...)' : '없음'}`, apiKeys.openAI ? 'info' : 'error');
       
-      const response = await fetch('/api/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          text: text,
-          openAIKey: apiKeys.openAI
-        })
-      });
+      if (!apiKeys.openAI) {
+        throw new Error('OpenAI API 키가 없습니다. API 키를 다시 설정해주세요.');
+      }
       
-      const data = await response.json();
+      const requestBody = { 
+        text: text,
+        openAIKey: apiKeys.openAI
+      };
       
-      if (!data.success) throw new Error(data.error || '번역 실패');
+      addLog(`요청 데이터: text length=${text.length}, key length=${apiKeys.openAI.length}`, 'info');
       
-      addLog(`[${episodeNum}회차] 번역 완료`, 'success');
-      return data.translatedText;
+      try {
+        const response = await fetch('/api/translate', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+        });
+        
+        addLog(`번역 API 응답 상태: ${response.status}`, response.ok ? 'success' : 'error');
+        
+        const data = await response.json();
+        addLog(`번역 API 응답: ${JSON.stringify(data).substring(0, 150)}`, 'info');
+        
+        if (!data.success) {
+          throw new Error(data.error || '번역 실패');
+        }
+        
+        addLog(`[${episodeNum}회차] 번역 완료`, 'success');
+        return data.translatedText;
+      } catch (error) {
+        addLog(`[${episodeNum}회차] 번역 실패: ${error.message}`, 'error');
+        throw error;
+      }
     }
 
     function displayEpisodeResults() {
