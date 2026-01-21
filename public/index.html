@@ -186,22 +186,20 @@
             <li><strong>지원 형식 2:</strong> episode, japanese, korean, speaker (수동 작성)</li>
             <li>한국어가 없으면 자동으로 번역됩니다</li>
             <li>여러 회차가 포함된 CSV도 자동 인식</li>
+            <li><strong>여러 CSV 파일 업로드 가능</strong> (각 파일이 하나의 회차)</li>
           </ul>
         </div>
         
         <div class="file-zone" id="csvFileZone">
           <div class="icon">📄</div>
-          <p style="font-size: 18px; font-weight: 600;">클릭해서 CSV 파일 선택</p>
+          <p style="font-size: 18px; font-weight: 600;">클릭해서 CSV 파일 선택 (여러 개 선택 가능)</p>
           <p style="font-size: 14px; color: #666;">대본이 포함된 CSV 파일을 업로드하세요</p>
         </div>
-        <input type="file" id="csvInput" accept=".csv" style="display: none;">
+        <input type="file" id="csvInput" accept=".csv" multiple style="display: none;">
         
-        <div id="csvPreview" class="hidden" style="margin-top: 20px;">
-          <h3>CSV 파일 미리보기</h3>
-          <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; margin: 10px 0;">
-            <div id="csvFileName" style="font-weight: 600; margin-bottom: 10px;"></div>
-            <div id="csvStats" style="font-size: 14px; color: #666;"></div>
-          </div>
+        <div id="csvFileList" class="hidden" style="margin-top: 20px;">
+          <h3>선택된 CSV 파일 (<span id="csvFileCount">0</span>개)</h3>
+          <div id="csvFileItems"></div>
         </div>
         
         <button id="csvProcessBtn" class="hidden" style="margin-top: 20px;">CSV 대본 분석 시작</button>
@@ -417,7 +415,7 @@
   <script>
     let selectedLogics = [];
     let uploadMode = 'video'; // 'video' or 'csv'
-    let csvData = null;
+    let csvFiles = []; // 여러 CSV 파일 저장
 
     function selectUploadMode(mode, element) {
       uploadMode = mode;
@@ -608,74 +606,86 @@
 
     // CSV 파일 선택
     csvInput.addEventListener('change', function(event) {
-      const file = event.target.files[0];
+      const files = Array.from(event.target.files);
       
-      if (!file) {
+      if (files.length === 0) {
         addLog('CSV 파일 선택 취소됨', 'warning');
         return;
       }
       
-      addLog('CSV 파일 선택됨: ' + file.name, 'success');
+      addLog(files.length + '개 CSV 파일 선택됨', 'success');
       
-      if (!file.name.endsWith('.csv')) {
+      // CSV 파일만 필터링
+      const csvFilesOnly = files.filter(f => f.name.endsWith('.csv'));
+      
+      if (csvFilesOnly.length !== files.length) {
         alert('CSV 파일만 업로드 가능합니다.');
-        addLog('CSV가 아닌 파일', 'error');
+        addLog('CSV가 아닌 파일 제외됨', 'warning');
+      }
+      
+      // 기존 파일에 추가
+      csvFiles.push(...csvFilesOnly);
+      addLog('총 ' + csvFiles.length + '개 CSV 파일', 'info');
+      
+      updateCSVFileList();
+    });
+
+    function updateCSVFileList() {
+      const fileList = document.getElementById('csvFileList');
+      const fileItems = document.getElementById('csvFileItems');
+      const fileCount = document.getElementById('csvFileCount');
+      
+      fileCount.textContent = csvFiles.length;
+      
+      if (csvFiles.length === 0) {
+        fileList.classList.add('hidden');
+        document.getElementById('csvProcessBtn').classList.add('hidden');
         return;
       }
       
-      parseCSVFile(file);
-    });
+      fileList.classList.remove('hidden');
+      document.getElementById('csvProcessBtn').classList.remove('hidden');
+      
+      fileItems.innerHTML = '';
+      
+      csvFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.innerHTML = `
+          <div class="info">
+            <span class="episode">${index + 1}번</span>
+            <span class="name">${file.name}</span>
+            <div class="size">${(file.size / 1024).toFixed(2)}KB</div>
+          </div>
+          <button onclick="removeCSVFile(${index})">삭제</button>
+        `;
+        fileItems.appendChild(item);
+      });
+    }
+
+    function removeCSVFile(index) {
+      csvFiles.splice(index, 1);
+      addLog('CSV 파일 삭제됨', 'info');
+      updateCSVFileList();
+    }
 
     function parseCSVFile(file) {
-      addLog('CSV 파싱 시작...', 'info');
-      
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        dynamicTyping: true,
-        complete: function(results) {
-          addLog('CSV 파싱 완료', 'success');
-          addLog('총 ' + results.data.length + '개 행 발견', 'info');
-          
-          csvData = results.data;
-          
-          // 컬럼 감지
-          const columns = Object.keys(csvData[0] || {});
-          addLog('감지된 컬럼: ' + columns.join(', '), 'info');
-          
-          // CSV 미리보기 표시
-          document.getElementById('csvFileName').textContent = '📄 ' + file.name;
-          
-          const episodes = [...new Set(csvData.map(row => row.episode || 1))].length;
-          
-          // text, japanese 중 하나라도 있으면 OK
-          const hasText = csvData.some(row => row.text);
-          const hasJapanese = csvData.some(row => row.japanese);
-          const hasKorean = csvData.some(row => row.korean);
-          const hasSpeaker = csvData.some(row => row.speaker !== undefined);
-          
-          let statsHTML = `
-            <div>총 ${results.data.length}개 대사</div>
-            <div>회차 수: ${episodes}개</div>
-            <div>일본어 대사: ${hasText || hasJapanese ? '✅' : '❌'} ${hasText ? '(text 컬럼)' : hasJapanese ? '(japanese 컬럼)' : ''}</div>
-            <div>한국어 번역: ${hasKorean ? '✅' : '❌ (자동 번역 예정)'}</div>
-            <div>화자 정보: ${hasSpeaker ? '✅' : '❌'}</div>
-          `;
-          
-          document.getElementById('csvStats').innerHTML = statsHTML;
-          document.getElementById('csvPreview').classList.remove('hidden');
-          document.getElementById('csvProcessBtn').classList.remove('hidden');
-          
-          if (!hasText && !hasJapanese) {
-            alert('CSV에 text 또는 japanese 컬럼이 필요합니다.');
-            addLog('필수 컬럼 누락', 'error');
-            document.getElementById('csvProcessBtn').disabled = true;
+      return new Promise((resolve, reject) => {
+        Papa.parse(file, {
+          header: true,
+          skipEmptyLines: true,
+          dynamicTyping: true,
+          complete: function(results) {
+            resolve({
+              filename: file.name,
+              data: results.data,
+              columns: Object.keys(results.data[0] || {})
+            });
+          },
+          error: function(error) {
+            reject(error);
           }
-        },
-        error: function(error) {
-          addLog('CSV 파싱 실패: ' + error.message, 'error');
-          alert('CSV 파일 읽기 실패: ' + error.message);
-        }
+        });
       });
     }
 
@@ -683,8 +693,8 @@
     csvProcessBtn.addEventListener('click', async function() {
       addLog('=== CSV 대본 처리 시작 ===', 'info');
       
-      if (!csvData || csvData.length === 0) {
-        alert('CSV 데이터가 없습니다.');
+      if (!csvFiles || csvFiles.length === 0) {
+        alert('CSV 파일을 선택해주세요.');
         return;
       }
       
@@ -692,13 +702,51 @@
       goToStep(2);
       
       document.getElementById('processingTitle').textContent = '📄 CSV 대본 처리 중';
-      document.getElementById('processingText').textContent = 'CSV 데이터를 회차별로 정리하고 있습니다...';
+      document.getElementById('processingText').textContent = 'CSV 파일들을 파싱하고 있습니다...';
       
       try {
+        // 모든 CSV 파일 파싱
+        const parsedFiles = [];
+        
+        for (let i = 0; i < csvFiles.length; i++) {
+          updateProgress(i + 1, csvFiles.length, 'CSV 파싱 중');
+          
+          try {
+            const parsed = await parseCSVFile(csvFiles[i]);
+            parsedFiles.push(parsed);
+            addLog(`[${i + 1}/${csvFiles.length}] ${parsed.filename} 파싱 완료 (${parsed.data.length}행)`, 'success');
+          } catch (error) {
+            addLog(`[${i + 1}/${csvFiles.length}] ${csvFiles[i].name} 파싱 실패: ${error.message}`, 'error');
+          }
+        }
+        
+        if (parsedFiles.length === 0) {
+          throw new Error('파싱된 CSV 파일이 없습니다.');
+        }
+        
+        addLog('총 ' + parsedFiles.length + '개 CSV 파일 파싱 완료', 'success');
+        
+        document.getElementById('processingText').textContent = 'CSV 데이터를 회차별로 정리하고 있습니다...';
+        
+        // 전체 데이터를 하나로 합치기
+        let allData = [];
+        
+        parsedFiles.forEach((parsed, fileIndex) => {
+          parsed.data.forEach(row => {
+            // episode 컬럼이 없으면 파일 인덱스를 회차로 사용
+            if (!row.episode) {
+              row.episode = fileIndex + 1;
+            }
+            allData.push(row);
+          });
+        });
+        
+        addLog('총 ' + allData.length + '개 행 병합 완료', 'info');
+        
         // 회차별로 그룹화
         const episodeGroups = {};
         
-        csvData.forEach(row => {
+        allData.forEach(row => {
           const epNum = row.episode || 1;
           if (!episodeGroups[epNum]) {
             episodeGroups[epNum] = {
@@ -719,7 +767,7 @@
             episodeGroups[epNum].korean.push(koreanText);
           }
           
-          // 화자 정보 (speaker 컬럼)
+          // 화자 정보
           if (row.speaker !== undefined && japaneseText) {
             episodeGroups[epNum].speakers.push({
               speaker: row.speaker,
@@ -746,9 +794,18 @@
           // 한국어가 없으면 번역 필요 플래그
           const needsTranslation = !korean && japanese;
           
+          // 파일명 찾기 (해당 회차의 CSV 파일)
+          let filename = 'CSV 대본 ' + epNum + '회차';
+          const matchedFile = parsedFiles.find(pf => 
+            pf.data.some(row => (row.episode || 1) == epNum)
+          );
+          if (matchedFile) {
+            filename = matchedFile.filename;
+          }
+          
           episodeData.push({
             episode: parseInt(epNum),
-            filename: 'CSV 대본 ' + epNum + '회차',
+            filename: filename,
             japanese: japanese,
             korean: korean || japanese, // 임시로 일본어 사용
             speakers: group.speakers,
