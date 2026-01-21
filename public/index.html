@@ -49,15 +49,6 @@
         setStep(1);
       };
 
-      const fileToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result.split(',')[1]);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      };
-
       const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file && file.type.startsWith('video/')) {
@@ -73,24 +64,44 @@
           return;
         }
 
+        // 파일 크기 체크 (500MB 제한)
+        if (videoFile.size > 500 * 1024 * 1024) {
+          alert('파일이 너무 큽니다. 500MB 이하의 영상을 선택해주세요.');
+          return;
+        }
+
         setUploading(true);
         try {
-          const videoBase64 = await fileToBase64(videoFile);
-          const response = await fetch('/api/upload', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              videoBase64,
-              assemblyAIKey: apiKeys.assemblyAI
-            })
-          });
+          console.log('📤 파일 업로드 시작:', videoFile.name, '크기:', (videoFile.size / 1024 / 1024).toFixed(2) + 'MB');
           
-          const data = await response.json();
-          if (!data.success) throw new Error(data.error);
+          // 파일을 ArrayBuffer로 읽기
+          const arrayBuffer = await videoFile.arrayBuffer();
+          console.log('✅ ArrayBuffer 생성 완료');
+          
+          // AssemblyAI에 직접 업로드
+          console.log('🚀 AssemblyAI로 업로드 중...');
+          const uploadResponse = await fetch('https://api.assemblyai.com/v2/upload', {
+            method: 'POST',
+            headers: {
+              'authorization': apiKeys.assemblyAI,
+            },
+            body: arrayBuffer
+          });
+
+          console.log('📊 업로드 응답 상태:', uploadResponse.status);
+
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            throw new Error(`업로드 실패 (${uploadResponse.status}): ${errorText}`);
+          }
+
+          const uploadData = await uploadResponse.json();
+          console.log('✅ 업로드 성공! URL:', uploadData.upload_url);
           
           setStep(2);
-          handleTranscribe(data.url);
+          handleTranscribe(uploadData.upload_url);
         } catch (error) {
+          console.error('❌ 업로드 에러:', error);
           alert('업로드 실패: ' + error.message);
         } finally {
           setUploading(false);
@@ -321,7 +332,12 @@
                     <p className="text-lg font-medium mb-2">
                       {videoFile ? `✅ ${videoFile.name}` : '클릭해서 영상 선택'}
                     </p>
-                    <p className="text-sm text-gray-500">MP4, MOV, AVI 등 지원</p>
+                    {videoFile && (
+                      <p className="text-sm text-gray-500">
+                        크기: {(videoFile.size / 1024 / 1024).toFixed(2)}MB
+                      </p>
+                    )}
+                    <p className="text-sm text-gray-500 mt-2">MP4, MOV, AVI 등 지원 (최대 500MB)</p>
                   </label>
                 </div>
 
