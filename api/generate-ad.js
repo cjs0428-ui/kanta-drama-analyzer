@@ -4,6 +4,7 @@ export const config = {
   api: {
     bodyParser: true,
   },
+  maxDuration: 60, // Vercel Pro 플랜이면 60초까지 가능
 };
 
 export default async function handler(req, res) {
@@ -61,19 +62,18 @@ export default async function handler(req, res) {
       `[${ep.episode}회차] ${ep.korean.substring(0, 200)}...`
     ).join('\n\n');
 
-    const adCopies = [];
-
-    // 각 로직별로 광고 문구 생성
-    for (const logicType of logicTypes) {
+    // 🔥 병렬 처리로 속도 향상
+    const adCopyPromises = logicTypes.map(async (logicType) => {
       console.log(`Generating ad for logic: ${logicType}`);
 
-      // 일본어 광고 문구 생성
-      const japaneseCompletion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: `あなたは日本のショートドラマ専門のクリエイティブコピーライターです。
+      try {
+        // 일본어 광고 문구 생성
+        const japaneseCompletion = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: `あなたは日本のショートドラマ専門のクリエイティブコピーライターです。
 
 【広告文の条件】
 - ターゲット年齢: ${targetAge}
@@ -100,55 +100,66 @@ ${additionalRequirements || 'なし'}
 - 絵文字は控えめに、あれば1-2個程度
 
 広告文のみを出力してください。説明は不要です。`
-          },
-          {
-            role: 'user',
-            content: `【ドラマストーリー全体分析】
+            },
+            {
+              role: 'user',
+              content: `【ドラマストーリー全体分析】
 ${overallStory}
 
 【各話の内容】
 ${episodeSummaries}
 
 上記の内容をもとに、「${logicType}」の論理構造で${platform}用の魅力的な広告文を作成してください。`
-          }
-        ],
-        temperature: 0.8,
-        max_tokens: 500
-      });
+            }
+          ],
+          temperature: 0.8,
+          max_tokens: 500
+        });
 
-      const japaneseAd = japaneseCompletion.choices[0].message.content.trim();
+        const japaneseAd = japaneseCompletion.choices[0].message.content.trim();
 
-      // 한국어 번역
-      const koreanCompletion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: `당신은 전문 일본어-한국어 번역가입니다.
+        // 한국어 번역
+        const koreanCompletion = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: `당신은 전문 일본어-한국어 번역가입니다.
 다음 일본어 광고 문구를 자연스러운 한국어로 번역하세요.
 - 감성과 뉘앙스를 그대로 유지
 - 한국 시청자에게 자연스럽게 들리도록
 - 설명 없이 번역문만 제공`
-          },
-          {
-            role: 'user',
-            content: japaneseAd
-          }
-        ],
-        temperature: 0.3,
-        max_tokens: 500
-      });
+            },
+            {
+              role: 'user',
+              content: japaneseAd
+            }
+          ],
+          temperature: 0.3,
+          max_tokens: 500
+        });
 
-      const koreanAd = koreanCompletion.choices[0].message.content.trim();
+        const koreanAd = koreanCompletion.choices[0].message.content.trim();
 
-      adCopies.push({
-        logicType,
-        japaneseAd,
-        koreanAd
-      });
+        console.log(`Ad generated for logic: ${logicType}`);
 
-      console.log(`Ad generated for logic: ${logicType}`);
-    }
+        return {
+          logicType,
+          japaneseAd,
+          koreanAd
+        };
+      } catch (error) {
+        console.error(`Error generating ad for ${logicType}:`, error.message);
+        return {
+          logicType,
+          japaneseAd: '생성 실패',
+          koreanAd: `광고 생성 중 오류가 발생했습니다: ${error.message}`
+        };
+      }
+    });
+
+    // 모든 광고 문구를 병렬로 생성
+    const adCopies = await Promise.all(adCopyPromises);
 
     console.log(`All ${adCopies.length} ad copies generated successfully`);
 
