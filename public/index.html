@@ -13,23 +13,19 @@
     h2 { font-size: 1.5rem; margin-bottom: 20px; }
     p { text-align: center; color: #666; margin-bottom: 30px; }
     label { display: block; font-weight: 600; margin-bottom: 8px; }
-    input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; font-size: 16px; }
+    input[type="password"], input[type="text"], select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; font-size: 16px; }
     button { width: 100%; padding: 15px; background: #9333ea; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
-    button:hover { background: #7e22ce; }
+    button:hover:not(:disabled) { background: #7e22ce; }
     button:disabled { background: #ccc; cursor: not-allowed; }
     .file-zone { border: 2px dashed #ddd; border-radius: 8px; padding: 60px 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
     .file-zone:hover { border-color: #9333ea; background: #faf5ff; }
     .file-zone .icon { font-size: 4rem; margin-bottom: 20px; }
     .hidden { display: none; }
-    .progress { text-align: center; padding: 40px; }
-    .progress .spinner { font-size: 4rem; animation: spin 2s linear infinite; display: inline-block; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .result { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 20px; margin-top: 20px; white-space: pre-wrap; line-height: 1.6; }
     .info { background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px; padding: 15px; margin: 20px 0; font-size: 14px; color: #1e40af; }
     .error { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: 20px; margin: 20px 0; color: #dc2626; }
     .success { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 20px; margin: 20px 0; color: #16a34a; }
     .warning { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 20px; margin: 20px 0; color: #d97706; }
-    .log { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; margin-top: 20px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+    .log { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; margin-top: 20px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; }
     .log-item { margin: 5px 0; padding: 5px; }
     .log-info { color: #0ea5e9; }
     .log-success { color: #16a34a; }
@@ -45,9 +41,8 @@
     <!-- 로그 패널 -->
     <div class="card">
       <h2>📋 실행 로그</h2>
-      <div id="logPanel" class="log">
-        <div class="log-item log-info">시스템 준비 완료</div>
-      </div>
+      <div id="logPanel" class="log"></div>
+      <button id="clearLogBtn" style="margin-top: 10px; background: #6b7280;">로그 지우기</button>
     </div>
 
     <!-- Step 0: API 키 입력 -->
@@ -55,78 +50,81 @@
       <h2>🔑 API 키 설정</h2>
       <div class="info">
         <p style="margin: 0;">서비스 이용을 위해 API 키가 필요합니다</p>
-        <ul style="margin-left: 20px; margin-top: 10px;">
-          <li>AssemblyAI: 음성을 텍스트로 변환</li>
-          <li>OpenAI: 번역, 분석, 광고 생성</li>
-        </ul>
       </div>
       
-      <label>AssemblyAI API Key 
-        <a href="https://www.assemblyai.com/dashboard" target="_blank" style="color: #9333ea; font-size: 12px;">(발급받기 →)</a>
-      </label>
+      <label>AssemblyAI API Key</label>
       <input type="password" id="assemblyKey" placeholder="AssemblyAI API 키를 입력하세요">
       
-      <label>OpenAI API Key 
-        <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #9333ea; font-size: 12px;">(발급받기 →)</a>
-      </label>
+      <label>OpenAI API Key</label>
       <input type="password" id="openaiKey" placeholder="OpenAI API 키를 입력하세요">
       
-      <button onclick="saveKeys()">API 키 저장하고 시작하기</button>
+      <button id="saveKeysBtn">API 키 저장하고 시작하기</button>
     </div>
 
     <!-- Step 1: 영상 업로드 -->
     <div id="step1" class="card hidden">
       <h2>📹 영상 업로드</h2>
       
-      <div class="file-zone" onclick="document.getElementById('videoInput').click()">
+      <div class="file-zone" id="fileZone">
         <div class="icon">📁</div>
         <p id="fileName" style="font-size: 18px; font-weight: 600;">클릭해서 영상 선택</p>
         <p id="fileSize" style="font-size: 14px; color: #666;"></p>
       </div>
-      <input type="file" id="videoInput" accept="video/*" class="hidden" onchange="selectFile(this)">
+      <input type="file" id="videoInput" accept="video/*" style="display: none;">
       
-      <button id="uploadBtn" class="hidden" onclick="uploadVideo()">업로드 시작</button>
+      <button id="uploadBtn" class="hidden">업로드 시작</button>
       
       <div id="uploadStatus" class="hidden"></div>
-    </div>
-
-    <!-- Step 2: 진행 중 -->
-    <div id="step2" class="card hidden">
-      <div class="progress">
-        <div class="spinner">⏳</div>
-        <h2 id="statusText">처리 중...</h2>
-        <p id="statusDetail" style="color: #666; margin-top: 10px;"></p>
-      </div>
     </div>
   </div>
 
   <script>
+    console.log('🟢 스크립트 시작');
+    
     // 로그 함수
-    function addLog(message, type = 'info') {
+    function addLog(message, type) {
       const logPanel = document.getElementById('logPanel');
       const logItem = document.createElement('div');
-      logItem.className = 'log-item log-' + type;
+      logItem.className = 'log-item log-' + (type || 'info');
       const time = new Date().toLocaleTimeString();
       logItem.textContent = '[' + time + '] ' + message;
       logPanel.appendChild(logItem);
       logPanel.scrollTop = logPanel.scrollHeight;
-      
-      console.log('[' + type.toUpperCase() + ']', message);
+      console.log('[' + (type || 'info').toUpperCase() + ']', message);
     }
 
-    addLog('스크립트 로드 완료', 'success');
+    addLog('시스템 초기화 시작', 'info');
     
+    // 전역 변수
     let apiKeys = { assemblyAI: '', openAI: '' };
     let selectedFile = null;
 
-    function saveKeys() {
-      addLog('API 키 저장 시도...', 'info');
+    // DOM 요소
+    const saveKeysBtn = document.getElementById('saveKeysBtn');
+    const step0 = document.getElementById('step0');
+    const step1 = document.getElementById('step1');
+    const fileZone = document.getElementById('fileZone');
+    const videoInput = document.getElementById('videoInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const clearLogBtn = document.getElementById('clearLogBtn');
+    
+    addLog('DOM 요소 참조 완료', 'success');
+
+    // 로그 지우기
+    clearLogBtn.addEventListener('click', function() {
+      document.getElementById('logPanel').innerHTML = '';
+      addLog('로그 초기화됨', 'info');
+    });
+
+    // API 키 저장
+    saveKeysBtn.addEventListener('click', function() {
+      addLog('API 키 저장 버튼 클릭됨', 'info');
       
       const assemblyKey = document.getElementById('assemblyKey').value.trim();
       const openaiKey = document.getElementById('openaiKey').value.trim();
       
       if (!assemblyKey || !openaiKey) {
-        addLog('API 키가 입력되지 않았습니다', 'error');
+        addLog('API 키 입력 누락', 'error');
         alert('두 개의 API 키를 모두 입력해주세요.');
         return;
       }
@@ -135,59 +133,74 @@
       apiKeys.openAI = openaiKey;
       
       addLog('API 키 저장 완료', 'success');
-      addLog('AssemblyAI 키 길이: ' + assemblyKey.length + '자', 'info');
-      addLog('OpenAI 키 길이: ' + openaiKey.length + '자', 'info');
+      addLog('AssemblyAI 키 길이: ' + assemblyKey.length, 'info');
+      addLog('OpenAI 키 길이: ' + openaiKey.length, 'info');
       
-      document.getElementById('step0').classList.add('hidden');
-      document.getElementById('step1').classList.remove('hidden');
+      step0.classList.add('hidden');
+      step1.classList.remove('hidden');
       
-      addLog('영상 업로드 단계로 이동', 'info');
-    }
+      addLog('영상 업로드 화면으로 전환', 'success');
+    });
 
-    function selectFile(input) {
-      const file = input.files[0];
+    // 파일 선택 영역 클릭
+    fileZone.addEventListener('click', function() {
+      addLog('파일 선택 영역 클릭됨', 'info');
+      videoInput.click();
+      addLog('파일 선택 대화상자 열림', 'info');
+    });
+
+    // 파일 선택
+    videoInput.addEventListener('change', function(event) {
+      addLog('파일 입력 change 이벤트 발생', 'info');
+      
+      const file = event.target.files[0];
+      
       if (!file) {
-        addLog('파일 선택 취소', 'warning');
+        addLog('파일 선택 취소됨', 'warning');
         return;
       }
       
-      addLog('파일 선택됨: ' + file.name, 'info');
+      addLog('파일이 선택됨!', 'success');
+      addLog('파일명: ' + file.name, 'info');
       addLog('파일 타입: ' + file.type, 'info');
-      addLog('파일 크기: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB', 'info');
+      addLog('파일 크기: ' + file.size + ' bytes (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)', 'info');
       
+      // 비디오 파일 검증
       if (!file.type.startsWith('video/')) {
         addLog('비디오 파일이 아닙니다: ' + file.type, 'error');
-        alert('비디오 파일만 업로드 가능합니다.');
+        alert('비디오 파일만 업로드 가능합니다.\n\n선택한 파일 타입: ' + file.type);
         return;
       }
       
-      if (file.size > 500 * 1024 * 1024) {
+      // 크기 검증
+      const maxSize = 500 * 1024 * 1024; // 500MB
+      if (file.size > maxSize) {
         addLog('파일 크기 초과: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB', 'error');
-        alert('파일이 너무 큽니다. 500MB 이하의 영상을 선택해주세요.');
+        alert('파일이 너무 큽니다.\n\n최대 크기: 500MB\n현재 크기: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB');
         return;
       }
       
+      // 파일 저장
       selectedFile = file;
       
+      // UI 업데이트
       document.getElementById('fileName').textContent = '✅ ' + file.name;
       document.getElementById('fileSize').textContent = '크기: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB';
-      document.getElementById('uploadBtn').classList.remove('hidden');
+      uploadBtn.classList.remove('hidden');
       
-      addLog('파일 검증 완료, 업로드 가능', 'success');
-    }
+      addLog('파일 검증 완료! 업로드 준비됨', 'success');
+    });
 
-    async function uploadVideo() {
+    // 업로드 버튼
+    uploadBtn.addEventListener('click', async function() {
+      addLog('=== 업로드 버튼 클릭 ===', 'info');
+      
       if (!selectedFile) {
-        addLog('파일이 선택되지 않았습니다', 'error');
+        addLog('선택된 파일이 없습니다', 'error');
         alert('파일을 선택해주세요.');
         return;
       }
       
-      addLog('=== 업로드 프로세스 시작 ===', 'info');
-      addLog('파일명: ' + selectedFile.name, 'info');
-      addLog('크기: ' + selectedFile.size + ' bytes', 'info');
-      
-      const uploadBtn = document.getElementById('uploadBtn');
       uploadBtn.disabled = true;
       uploadBtn.textContent = '업로드 중...';
       
@@ -196,12 +209,11 @@
       statusDiv.textContent = '📤 업로드 중... 잠시만 기다려주세요.';
       statusDiv.classList.remove('hidden');
       
+      addLog('업로드 시작: ' + selectedFile.name, 'info');
+      
       try {
-        addLog('Vercel Blob Storage로 업로드 요청 준비', 'info');
-        addLog('API 엔드포인트: /api/upload-blob', 'info');
-        
         const url = '/api/upload-blob?assemblyAIKey=' + encodeURIComponent(apiKeys.assemblyAI);
-        addLog('요청 URL 생성 완료', 'info');
+        addLog('요청 URL: ' + url, 'info');
         
         addLog('fetch 요청 시작...', 'info');
         const startTime = Date.now();
@@ -215,67 +227,60 @@
         });
         
         const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-        addLog('fetch 응답 받음 (소요시간: ' + elapsed + '초)', 'info');
-        addLog('응답 상태: ' + response.status + ' ' + response.statusText, 'info');
+        addLog('응답 수신 (소요시간: ' + elapsed + '초)', 'info');
+        addLog('HTTP 상태: ' + response.status + ' ' + response.statusText, response.ok ? 'success' : 'error');
         
         if (!response.ok) {
-          addLog('HTTP 에러 발생: ' + response.status, 'error');
-          
-          let errorData;
+          let errorMsg;
           try {
-            errorData = await response.json();
-            addLog('에러 데이터: ' + JSON.stringify(errorData), 'error');
+            const errorData = await response.json();
+            errorMsg = errorData.error || errorData.message || 'HTTP ' + response.status;
+            addLog('에러 응답: ' + JSON.stringify(errorData), 'error');
           } catch (e) {
-            const errorText = await response.text();
-            addLog('에러 텍스트: ' + errorText, 'error');
-            errorData = { error: errorText };
+            errorMsg = await response.text();
+            addLog('에러 텍스트: ' + errorMsg, 'error');
           }
           
           statusDiv.className = 'error';
-          statusDiv.textContent = '❌ 업로드 실패: ' + (errorData.error || '알 수 없는 오류');
+          statusDiv.textContent = '❌ 업로드 실패: ' + errorMsg;
           
-          throw new Error(errorData.error || '업로드 실패 (HTTP ' + response.status + ')');
+          throw new Error(errorMsg);
         }
         
-        addLog('응답 JSON 파싱 중...', 'info');
         const data = await response.json();
         addLog('응답 데이터: ' + JSON.stringify(data), 'success');
         
         if (!data.success) {
-          addLog('업로드 실패 응답: ' + (data.error || '알 수 없는 오류'), 'error');
+          addLog('업로드 실패: ' + (data.error || '알 수 없는 오류'), 'error');
           statusDiv.className = 'error';
           statusDiv.textContent = '❌ 업로드 실패: ' + (data.error || '알 수 없는 오류');
           throw new Error(data.error || '업로드 실패');
         }
         
-        addLog('업로드 성공!', 'success');
+        addLog('✅ 업로드 성공!', 'success');
         addLog('Blob URL: ' + data.blobUrl, 'success');
-        addLog('Transcription ID: ' + data.transcriptionId, 'success');
         
         statusDiv.className = 'success';
-        statusDiv.textContent = '✅ 업로드 완료! 음성 인식을 시작합니다...';
+        statusDiv.textContent = '✅ 업로드 완료!\n\nBlob URL: ' + data.blobUrl;
         
-        setTimeout(() => {
-          alert('업로드 성공!\n\n이제 음성 인식 단계로 넘어갑니다.\n(실제 구현은 API 연동 후 완성됩니다)');
-        }, 500);
+        alert('업로드 성공!\n\n파일이 Vercel Blob Storage에 업로드되었습니다.');
         
       } catch (error) {
         addLog('=== 업로드 실패 ===', 'error');
-        addLog('에러 타입: ' + error.name, 'error');
-        addLog('에러 메시지: ' + error.message, 'error');
-        addLog('에러 스택: ' + error.stack, 'error');
+        addLog('에러: ' + error.message, 'error');
         
         statusDiv.className = 'error';
-        statusDiv.textContent = '❌ 업로드 실패: ' + error.message;
+        statusDiv.textContent = '❌ 업로드 실패\n\n' + error.message;
         
-        alert('업로드 실패\n\n' + error.message + '\n\n자세한 내용은 로그를 확인하세요.');
+        alert('업로드 실패\n\n' + error.message + '\n\n로그를 확인하세요.');
         
         uploadBtn.disabled = false;
         uploadBtn.textContent = '다시 시도';
       }
-    }
+    });
     
-    addLog('모든 함수 초기화 완료', 'success');
+    addLog('모든 이벤트 리스너 등록 완료', 'success');
+    addLog('시스템 준비 완료 ✅', 'success');
   </script>
 </body>
 </html>
