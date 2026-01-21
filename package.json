@@ -1,16 +1,13 @@
 {
   "name": "kanta-drama-analyzer",
   "version": "1.0.0",
-  "description": "KANTA 숏드라마 분석 및 광고 문구 생성 플랫폼",
+  "description": "KANTA drama analyzer",
   "main": "index.js",
-  "scripts": {
-    "build": "echo No build needed"
-  },
   "dependencies": {
-    "axios": "^1.6.0",
-    "openai": "^4.20.0"
+    "axios": "1.6.0",
+    "openai": "4.20.0"
   },
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   }
 }
