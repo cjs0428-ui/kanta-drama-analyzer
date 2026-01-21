@@ -4,8 +4,7 @@
   "description": "KANTA 숏드라마 분석 및 광고 문구 생성 플랫폼",
   "main": "index.js",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "vercel build"
+    "build": "echo 'No build needed'"
   },
   "dependencies": {
     "axios": "^1.6.0",
@@ -15,3 +14,56 @@
     "node": ">=18.x"
   }
 }
+```
+
+**핵심 변경 사항:**
+- `"dev": "vercel dev"` → 삭제
+- `"build": "vercel build"` → `"build": "echo 'No build needed'"` 로 변경
+
+5. **"Commit changes" 클릭**
+
+---
+
+### 방법 2: Vercel 설정에서 빌드 명령 제거
+
+1. **Vercel 대시보드** 접속
+2. **kanta-drama-analyzer 프로젝트** 클릭
+3. **Settings** 탭 클릭
+4. 왼쪽 메뉴에서 **General** 클릭
+5. **Build & Development Settings** 섹션 찾기
+6. **Build Command** 부분:
+   - **Override** 체크박스 ✅ 체크
+   - 입력창을 **비워두기** (아무것도 입력 안 함)
+7. **Save** 클릭
+
+---
+
+### 방법 3: Vercel에서 재배포
+
+위 방법 1 또는 2를 완료한 후:
+
+1. Vercel 대시보드에서 **Deployments** 탭 클릭
+2. 오른쪽 상단 **"Redeploy"** 버튼 클릭
+3. 또는 **"Visit"** 옆의 점 3개(...) 클릭 → **"Redeploy"**
+
+---
+
+## 🎯 왜 이런 문제가 발생했나?
+
+Vercel이 `package.json`에서 `build` 스크립트를 찾았는데, 원래 있던 `"build": "vercel build"` 명령어가 실제로는 존재하지 않는 명령어라서 에러가 발생했습니다.
+
+우리 프로젝트는:
+- ✅ **API만 있는 서버리스 프로젝트** (빌드 불필요)
+- ✅ **정적 HTML 파일** (React 빌드 불필요)
+
+따라서 빌드 과정이 필요 없습니다!
+
+---
+
+## ✅ 최종 확인
+
+수정 후 배포가 성공하면:
+```
+✓ Building...
+✓ Deploying...
+✓ Ready!
