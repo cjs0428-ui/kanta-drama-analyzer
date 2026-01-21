@@ -4,532 +4,215 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KANTA 숏드라마 분석기</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: linear-gradient(135deg, #f5f3ff 0%, #fce7f3 100%); min-height: 100vh; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 20px; }
+    h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; }
+    p { text-align: center; color: #666; margin-bottom: 30px; }
+    label { display: block; font-weight: 600; margin-bottom: 8px; }
+    input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; font-size: 16px; }
+    button { width: 100%; padding: 15px; background: #9333ea; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    button:hover { background: #7e22ce; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .file-zone { border: 2px dashed #ddd; border-radius: 8px; padding: 60px 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .file-zone:hover { border-color: #9333ea; background: #faf5ff; }
+    .file-zone .icon { font-size: 4rem; margin-bottom: 20px; }
+    .hidden { display: none; }
+    .progress { text-align: center; padding: 40px; }
+    .progress .spinner { font-size: 4rem; animation: spin 2s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .result { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 20px; margin-top: 20px; white-space: pre-wrap; }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  
-  <script type="text/babel">
-    const { useState } = React;
+  <div class="container">
+    <h1>🎬 KANTA 숏드라마 분석기</h1>
+    <p>일본 드라마 대사를 자동으로 번역하고 분석해서 광고 문구를 만들어드립니다</p>
 
-    function App() {
-      const [apiKeys, setApiKeys] = useState({
-        assemblyAI: '',
-        openAI: ''
-      });
-      const [step, setStep] = useState(0);
-      const [videoFile, setVideoFile] = useState(null);
-      const [uploading, setUploading] = useState(false);
-      const [transcribing, setTranscribing] = useState(false);
-      const [translating, setTranslating] = useState(false);
-      const [analyzing, setAnalyzing] = useState(false);
-      const [generatingAd, setGeneratingAd] = useState(false);
+    <!-- Step 0: API 키 입력 -->
+    <div id="step0" class="card">
+      <h2>🔑 API 키 설정</h2>
+      <div style="background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px; padding: 15px; margin: 20px 0;">
+        <p style="font-size: 14px; color: #1e40af; text-align: left; margin: 0;">
+          서비스 이용을 위해 API 키가 필요합니다
+        </p>
+      </div>
       
-      const [japaneseText, setJapaneseText] = useState('');
-      const [koreanText, setKoreanText] = useState('');
-      const [storyAnalysis, setStoryAnalysis] = useState('');
-      const [adCopy, setAdCopy] = useState('');
+      <label>AssemblyAI API Key</label>
+      <input type="password" id="assemblyKey" placeholder="AssemblyAI API 키를 입력하세요">
       
-      const [adCriteria, setAdCriteria] = useState({
-        targetAge: '20-30대',
-        tone: '감성적',
-        platform: '인스타그램',
-        length: '짧게 (1-2줄)',
-        keyword: ''
-      });
+      <label>OpenAI API Key</label>
+      <input type="password" id="openaiKey" placeholder="OpenAI API 키를 입력하세요">
+      
+      <button onclick="saveKeys()">API 키 저장하고 시작하기</button>
+    </div>
 
-      const handleSaveKeys = () => {
-        if (!apiKeys.assemblyAI.trim() || !apiKeys.openAI.trim()) {
-          alert('두 개의 API 키를 모두 입력해주세요.');
-          return;
-        }
-        setStep(1);
-      };
+    <!-- Step 1: 영상 업로드 -->
+    <div id="step1" class="card hidden">
+      <h2>📹 영상 업로드</h2>
+      
+      <div class="file-zone" onclick="document.getElementById('videoInput').click()">
+        <div class="icon">📁</div>
+        <p id="fileName" style="font-size: 18px; font-weight: 600;">클릭해서 영상 선택</p>
+        <p id="fileSize" style="font-size: 14px; color: #666;"></p>
+      </div>
+      <input type="file" id="videoInput" accept="video/*" class="hidden" onchange="selectFile(this)">
+      
+      <button id="uploadBtn" class="hidden" onclick="uploadVideo()">업로드 시작</button>
+    </div>
 
-      const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('video/')) {
-          setVideoFile(file);
-        } else {
-          alert('비디오 파일만 업로드 가능합니다.');
-        }
-      };
+    <!-- Step 2: 진행 중 -->
+    <div id="step2" class="card hidden">
+      <div class="progress">
+        <div class="spinner">⏳</div>
+        <h2 id="statusText">처리 중...</h2>
+        <p id="statusDetail"></p>
+      </div>
+    </div>
 
-      const handleUpload = async () => {
-        if (!videoFile) {
-          alert('파일을 선택해주세요.');
-          return;
-        }
+    <!-- Step 3: 결과 -->
+    <div id="step3" class="card hidden">
+      <h2>✅ 완료!</h2>
+      <div id="result" class="result"></div>
+    </div>
+  </div>
 
-        // 파일 크기 체크 (500MB 제한)
-        if (videoFile.size > 500 * 1024 * 1024) {
-          alert('파일이 너무 큽니다. 500MB 이하의 영상을 선택해주세요.');
-          return;
-        }
+  <script>
+    console.log('🟢 스크립트 로드 완료');
+    
+    let apiKeys = { assemblyAI: '', openAI: '' };
+    let selectedFile = null;
 
-        setUploading(true);
-        try {
-          console.log('📤 파일 업로드 시작:', videoFile.name, '크기:', (videoFile.size / 1024 / 1024).toFixed(2) + 'MB');
-          
-          // 파일을 ArrayBuffer로 읽기
-          const arrayBuffer = await videoFile.arrayBuffer();
-          console.log('✅ ArrayBuffer 생성 완료');
-          
-          // AssemblyAI에 직접 업로드
-          console.log('🚀 AssemblyAI로 업로드 중...');
-          const uploadResponse = await fetch('https://api.assemblyai.com/v2/upload', {
-            method: 'POST',
-            headers: {
-              'authorization': apiKeys.assemblyAI,
-            },
-            body: arrayBuffer
-          });
-
-          console.log('📊 업로드 응답 상태:', uploadResponse.status);
-
-          if (!uploadResponse.ok) {
-            const errorText = await uploadResponse.text();
-            throw new Error(`업로드 실패 (${uploadResponse.status}): ${errorText}`);
-          }
-
-          const uploadData = await uploadResponse.json();
-          console.log('✅ 업로드 성공! URL:', uploadData.upload_url);
-          
-          setStep(2);
-          handleTranscribe(uploadData.upload_url);
-        } catch (error) {
-          console.error('❌ 업로드 에러:', error);
-          alert('업로드 실패: ' + error.message);
-        } finally {
-          setUploading(false);
-        }
-      };
-
-      const handleTranscribe = async (videoUrl) => {
-        setTranscribing(true);
-        try {
-          const response = await fetch('/api/transcribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              videoUrl,
-              assemblyAIKey: apiKeys.assemblyAI
-            })
-          });
-          
-          const data = await response.json();
-          if (!data.success) throw new Error(data.error);
-          
-          checkTranscriptionStatus(data.transcriptionId);
-        } catch (error) {
-          alert('음성 인식 실패: ' + error.message);
-          setTranscribing(false);
-        }
-      };
-
-      const checkTranscriptionStatus = async (id) => {
-        const interval = setInterval(async () => {
-          try {
-            const response = await fetch(`/api/status?id=${id}&assemblyAIKey=${apiKeys.assemblyAI}`);
-            const data = await response.json();
-            
-            if (data.status === 'completed') {
-              clearInterval(interval);
-              setJapaneseText(data.text);
-              setTranscribing(false);
-              setStep(3);
-              handleTranslate(data.text);
-            } else if (data.status === 'error') {
-              clearInterval(interval);
-              setTranscribing(false);
-              alert('음성 인식 실패');
-            }
-          } catch (error) {
-            clearInterval(interval);
-            setTranscribing(false);
-          }
-        }, 3000);
-      };
-
-      const handleTranslate = async (text) => {
-        setTranslating(true);
-        try {
-          const response = await fetch('/api/translate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              text,
-              openAIKey: apiKeys.openAI
-            })
-          });
-          
-          const data = await response.json();
-          if (!data.success) throw new Error(data.error);
-          
-          setKoreanText(data.translatedText);
-          setStep(4);
-        } catch (error) {
-          alert('번역 실패: ' + error.message);
-        } finally {
-          setTranslating(false);
-        }
-      };
-
-      const handleAnalyzeStory = async () => {
-        setAnalyzing(true);
-        try {
-          const response = await fetch('/api/analyze-story', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              text: koreanText,
-              openAIKey: apiKeys.openAI
-            })
-          });
-          
-          const data = await response.json();
-          if (!data.success) throw new Error(data.error);
-          
-          setStoryAnalysis(data.analysis);
-          setStep(5);
-        } catch (error) {
-          alert('분석 실패: ' + error.message);
-        } finally {
-          setAnalyzing(false);
-        }
-      };
-
-      const handleGenerateAd = async () => {
-        setGeneratingAd(true);
-        try {
-          const response = await fetch('/api/generate-ad', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              story: koreanText,
-              analysis: storyAnalysis,
-              criteria: adCriteria,
-              openAIKey: apiKeys.openAI
-            })
-          });
-          
-          const data = await response.json();
-          if (!data.success) throw new Error(data.error);
-          
-          setAdCopy(data.adCopy);
-          setStep(6);
-        } catch (error) {
-          alert('광고 생성 실패: ' + error.message);
-        } finally {
-          setGeneratingAd(false);
-        }
-      };
-
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">🎬 KANTA 숏드라마 분석기</h1>
-              <p className="text-gray-600">일본 드라마 대사를 자동으로 번역하고 분석해서 광고 문구를 만들어드립니다</p>
-            </div>
-
-            {step === 0 && (
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold mb-6">🔑 API 키 설정</h2>
-                
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                  <p className="text-sm text-blue-800 font-medium mb-2">서비스 이용을 위해 API 키가 필요합니다</p>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-blue-700">
-                    <li>AssemblyAI: 음성을 텍스트로 변환</li>
-                    <li>OpenAI: 번역, 분석, 광고 생성</li>
-                  </ul>
-                </div>
-
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      AssemblyAI API Key
-                      <a href="https://www.assemblyai.com/dashboard" target="_blank" className="ml-2 text-purple-600 hover:underline text-xs">
-                        (발급받기 →)
-                      </a>
-                    </label>
-                    <input
-                      type="password"
-                      value={apiKeys.assemblyAI}
-                      onChange={(e) => setApiKeys({...apiKeys, assemblyAI: e.target.value})}
-                      placeholder="AssemblyAI API 키"
-                      className="w-full border rounded-lg p-3"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      OpenAI API Key
-                      <a href="https://platform.openai.com/api-keys" target="_blank" className="ml-2 text-purple-600 hover:underline text-xs">
-                        (발급받기 →)
-                      </a>
-                    </label>
-                    <input
-                      type="password"
-                      value={apiKeys.openAI}
-                      onChange={(e) => setApiKeys({...apiKeys, openAI: e.target.value})}
-                      placeholder="OpenAI API 키"
-                      className="w-full border rounded-lg p-3"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleSaveKeys}
-                  className="w-full mt-6 bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700"
-                >
-                  API 키 저장하고 시작하기
-                </button>
-              </div>
-            )}
-
-            {step > 0 && (
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-                <div className="flex justify-between items-center">
-                  {[
-                    { num: 1, label: '영상 업로드' },
-                    { num: 2, label: '음성 인식' },
-                    { num: 3, label: '한글 번역' },
-                    { num: 4, label: '스토리 분석' },
-                    { num: 5, label: '광고 설정' },
-                    { num: 6, label: '광고 생성' }
-                  ].map((s) => (
-                    <div key={s.num} className="flex flex-col items-center">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                        step >= s.num ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'
-                      }`}>
-                        {step > s.num ? '✓' : s.num}
-                      </div>
-                      <p className="text-xs mt-2 text-center w-20">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {step === 1 && (
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold mb-4">📹 영상 업로드</h2>
-                
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-purple-400 transition-colors">
-                  <input
-                    type="file"
-                    accept="video/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    id="video-upload"
-                  />
-                  <label htmlFor="video-upload" className="cursor-pointer">
-                    <div className="text-6xl mb-4">📁</div>
-                    <p className="text-lg font-medium mb-2">
-                      {videoFile ? `✅ ${videoFile.name}` : '클릭해서 영상 선택'}
-                    </p>
-                    {videoFile && (
-                      <p className="text-sm text-gray-500">
-                        크기: {(videoFile.size / 1024 / 1024).toFixed(2)}MB
-                      </p>
-                    )}
-                    <p className="text-sm text-gray-500 mt-2">MP4, MOV, AVI 등 지원 (최대 500MB)</p>
-                  </label>
-                </div>
-
-                {videoFile && (
-                  <button
-                    onClick={handleUpload}
-                    disabled={uploading}
-                    className="w-full mt-6 bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 disabled:bg-gray-400"
-                  >
-                    {uploading ? '업로드 중...' : '업로드 시작'}
-                  </button>
-                )}
-              </div>
-            )}
-
-            {step === 2 && transcribing && (
-              <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-                <div className="text-6xl mb-4">⏳</div>
-                <h2 className="text-2xl font-bold mb-2">음성 인식 중...</h2>
-                <p className="text-gray-600">일본어 대사를 추출하고 있습니다</p>
-              </div>
-            )}
-
-            {step >= 3 && (
-              <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
-                <h2 className="text-2xl font-bold mb-4">📝 일본어 원문</h2>
-                <div className="bg-gray-50 p-4 rounded-lg mb-4 max-h-64 overflow-y-auto">
-                  <p className="whitespace-pre-wrap">{japaneseText}</p>
-                </div>
-
-                {translating && (
-                  <div className="text-center text-purple-600 my-4">번역 중...</div>
-                )}
-
-                {koreanText && (
-                  <>
-                    <h2 className="text-2xl font-bold mb-4 mt-6">🇰🇷 한글 번역</h2>
-                    <div className="bg-purple-50 p-4 rounded-lg max-h-64 overflow-y-auto">
-                      <p className="whitespace-pre-wrap">{koreanText}</p>
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
-
-            {step === 4 && (
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold mb-4">📊 스토리 분석</h2>
-                <p className="text-gray-600 mb-4">번역된 대사를 기반으로 스토리를 분석합니다</p>
-                <button
-                  onClick={handleAnalyzeStory}
-                  disabled={analyzing}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
-                >
-                  {analyzing ? '분석 중...' : '스토리 분석 시작'}
-                </button>
-
-                {storyAnalysis && (
-                  <div className="mt-6 bg-blue-50 p-6 rounded-lg">
-                    <h3 className="font-bold mb-3">📈 분석 결과:</h3>
-                    <p className="whitespace-pre-wrap">{storyAnalysis}</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {step === 5 && (
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold mb-4">🎯 광고 문구 기준 설정</h2>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">타겟 연령대</label>
-                    <select
-                      value={adCriteria.targetAge}
-                      onChange={(e) => setAdCriteria({...adCriteria, targetAge: e.target.value})}
-                      className="w-full border rounded-lg p-3"
-                    >
-                      <option>10대</option>
-                      <option>20-30대</option>
-                      <option>40-50대</option>
-                      <option>전연령</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">톤 & 무드</label>
-                    <select
-                      value={adCriteria.tone}
-                      onChange={(e) => setAdCriteria({...adCriteria, tone: e.target.value})}
-                      className="w-full border rounded-lg p-3"
-                    >
-                      <option>감성적</option>
-                      <option>유머러스</option>
-                      <option>진지한</option>
-                      <option>설레는</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">플랫폼</label>
-                    <select
-                      value={adCriteria.platform}
-                      onChange={(e) => setAdCriteria({...adCriteria, platform: e.target.value})}
-                      className="w-full border rounded-lg p-3"
-                    >
-                      <option>인스타그램</option>
-                      <option>유튜브</option>
-                      <option>틱톡</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">문구 길이</label>
-                    <select
-                      value={adCriteria.length}
-                      onChange={(e) => setAdCriteria({...adCriteria, length: e.target.value})}
-                      className="w-full border rounded-lg p-3"
-                    >
-                      <option>짧게 (1-2줄)</option>
-                      <option>중간 (3-4줄)</option>
-                      <option>길게 (5줄 이상)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">키워드 (선택)</label>
-                    <input
-                      type="text"
-                      value={adCriteria.keyword}
-                      onChange={(e) => setAdCriteria({...adCriteria, keyword: e.target.value})}
-                      placeholder="예: 로맨스, 반전"
-                      className="w-full border rounded-lg p-3"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleGenerateAd}
-                  disabled={generatingAd}
-                  className="w-full mt-6 bg-pink-600 text-white py-3 rounded-lg hover:bg-pink-700 disabled:bg-gray-400"
-                >
-                  {generatingAd ? '생성 중...' : '광고 문구 생성'}
-                </button>
-              </div>
-            )}
-
-            {step === 6 && (
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold mb-6">✨ 생성된 광고 문구</h2>
-                <div className="bg-gradient-to-r from-pink-100 to-purple-100 p-8 rounded-lg mb-6 border-2 border-purple-200">
-                  <p className="text-xl font-medium whitespace-pre-wrap leading-relaxed">{adCopy}</p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    onClick={() => {
-                      const content = `=== KANTA 분석 결과 ===\n\n일본어:\n${japaneseText}\n\n한글:\n${koreanText}\n\n분석:\n${storyAnalysis}\n\n광고:\n${adCopy}`;
-                      const blob = new Blob([content], { type: 'text/plain' });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = 'kanta-result.txt';
-                      a.click();
-                      URL.revokeObjectURL(url);
-                    }}
-                    className="bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
-                  >
-                    📥 결과 다운로드
-                  </button>
-                  <button
-                    onClick={() => {
-                      setStep(1);
-                      setVideoFile(null);
-                      setJapaneseText('');
-                      setKoreanText('');
-                      setStoryAnalysis('');
-                      setAdCopy('');
-                    }}
-                    className="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700"
-                  >
-                    🔄 새로운 분석
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      );
+    function saveKeys() {
+      const assemblyKey = document.getElementById('assemblyKey').value.trim();
+      const openaiKey = document.getElementById('openaiKey').value.trim();
+      
+      if (!assemblyKey || !openaiKey) {
+        alert('두 개의 API 키를 모두 입력해주세요.');
+        return;
+      }
+      
+      apiKeys.assemblyAI = assemblyKey;
+      apiKeys.openAI = openaiKey;
+      
+      console.log('✅ API 키 저장됨');
+      
+      document.getElementById('step0').classList.add('hidden');
+      document.getElementById('step1').classList.remove('hidden');
     }
 
-    ReactDOM.render(<App />, document.getElementById('root'));
+    function selectFile(input) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      if (!file.type.startsWith('video/')) {
+        alert('비디오 파일만 업로드 가능합니다.');
+        return;
+      }
+      
+      if (file.size > 500 * 1024 * 1024) {
+        alert('파일이 너무 큽니다. 500MB 이하의 영상을 선택해주세요.');
+        return;
+      }
+      
+      selectedFile = file;
+      console.log('📁 파일 선택됨:', file.name, file.size);
+      
+      document.getElementById('fileName').textContent = '✅ ' + file.name;
+      document.getElementById('fileSize').textContent = '크기: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB';
+      document.getElementById('uploadBtn').classList.remove('hidden');
+    }
+
+    async function uploadVideo() {
+      if (!selectedFile) {
+        alert('파일을 선택해주세요.');
+        return;
+      }
+      
+      console.log('📤 업로드 시작:', selectedFile.name);
+      
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+      document.getElementById('statusText').textContent = '영상 업로드 중...';
+      document.getElementById('statusDetail').textContent = selectedFile.name;
+      
+      try {
+        // ArrayBuffer로 변환
+        console.log('🔄 ArrayBuffer 변환 중...');
+        const arrayBuffer = await selectedFile.arrayBuffer();
+        console.log('✅ ArrayBuffer 생성 완료:', arrayBuffer.byteLength, 'bytes');
+        
+        // AssemblyAI에 업로드
+        console.log('🚀 AssemblyAI로 업로드 중...');
+        document.getElementById('statusText').textContent = 'AssemblyAI에 업로드 중...';
+        
+        const uploadResponse = await fetch('https://api.assemblyai.com/v2/upload', {
+          method: 'POST',
+          headers: {
+            'authorization': apiKeys.assemblyAI
+          },
+          body: arrayBuffer
+        });
+        
+        console.log('📊 업로드 응답:', uploadResponse.status, uploadResponse.statusText);
+        
+        if (!uploadResponse.ok) {
+          const errorText = await uploadResponse.text();
+          throw new Error('업로드 실패 (' + uploadResponse.status + '): ' + errorText);
+        }
+        
+        const uploadData = await uploadResponse.json();
+        console.log('✅ 업로드 성공!', uploadData);
+        
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step3').classList.remove('hidden');
+        document.getElementById('result').textContent = '업로드 URL: ' + uploadData.upload_url;
+        
+      } catch (error) {
+        console.error('❌ 에러:', error);
+        document.getElementById('statusText').textContent = '업로드 실패';
+        document.getElementById('statusDetail').textContent = error.message;
+        alert('업로드 실패: ' + error.message);
+      }
+    }
+    
+    console.log('🟢 모든 함수 정의 완료');
   </script>
 </body>
 </html>
+```
+
+---
+
+## ✅ 이 버전의 특징
+
+1. **React 없음** - 순수 JavaScript
+2. **Babel 없음** - 변환 필요 없음
+3. **JSX 없음** - 브라우저가 바로 실행
+4. **Tailwind 없음** - 인라인 CSS
+5. **초간단 3단계** - 키 입력 → 업로드 → 결과
+
+---
+
+## 🎯 테스트 방법
+
+1. **위 코드로 `public/index.html` 완전히 교체**
+2. **커밋 & 재배포**
+3. **시크릿 모드에서 접속**
+4. **F12 → Console 열기**
+5. **콘솔에 이렇게 나와야 함:**
+```
+   🟢 스크립트 로드 완료
+   🟢 모든 함수 정의 완료
+```
+6. **API 키 입력 → 영상 선택 → 업로드 시작**
+7. **콘솔 로그 확인:**
+```
+   📤 업로드 시작: video.mp4
+   🔄 ArrayBuffer 변환 중...
+   ✅ ArrayBuffer 생성 완료: 12345678 bytes
+   🚀 AssemblyAI로 업로드 중...
+   📊 업로드 응답: 200 OK
+   ✅ 업로드 성공!
