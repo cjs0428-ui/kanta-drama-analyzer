@@ -4,10 +4,10 @@ export const config = {
   api: {
     bodyParser: true,
   },
+  maxDuration: 60, // Vercel Pro 플랜이면 60초, 무료는 10초
 };
 
 export default async function handler(req, res) {
-  // CORS 헤더
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -40,18 +40,19 @@ export default async function handler(req, res) {
       apiKey: openAIKey,
     });
 
-    // 1. 회차별 분석
-    const episodeAnalysis = [];
-    
-    for (const ep of episodes) {
+    console.log('Starting analysis...');
+
+    // 🔥 병렬 처리로 회차별 분석 속도 향상
+    const episodeAnalysisPromises = episodes.map(async (ep) => {
       console.log(`Analyzing episode ${ep.episode}...`);
       
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: `당신은 전문 드라마 스토리 분석가입니다. 
+      try {
+        const completion = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: `당신은 전문 드라마 스토리 분석가입니다. 
 주어진 회차의 대사를 분석하여 다음을 제공하세요:
 - 이 회차의 핵심 사건
 - 등장인물의 관계 변화
@@ -59,26 +60,40 @@ export default async function handler(req, res) {
 - 중요한 대사나 장면
 
 간단명료하게 한국어로 작성하세요.`
-          },
-          {
-            role: 'user',
-            content: `${ep.episode}회차 대사:\n\n${ep.korean}`
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 500
-      });
-      
-      episodeAnalysis.push({
-        episode: ep.episode,
-        analysis: completion.choices[0].message.content.trim()
-      });
-    }
+            },
+            {
+              role: 'user',
+              content: `${ep.episode}회차 대사:\n\n${ep.korean}`
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 400
+        });
+        
+        return {
+          episode: ep.episode,
+          analysis: completion.choices[0].message.content.trim()
+        };
+      } catch (error) {
+        console.error(`Episode ${ep.episode} analysis failed:`, error.message);
+        return {
+          episode: ep.episode,
+          analysis: `분석 실패: ${error.message}`
+        };
+      }
+    });
 
-    // 2. 전체 스토리 분석
-    console.log('Analyzing overall story...');
-    
-    const allText = episodes.map(ep => `[${ep.episode}회차]\n${ep.korean}`).join('\n\n');
+    // 모든 회차 병렬 분석
+    const episodeAnalysis = await Promise.all(episodeAnalysisPromises);
+
+    console.log('Episode analyses completed, starting overall analysis...');
+
+    // 전체 스토리 분석 (텍스트 길이 제한)
+    const allText = episodes.map(ep => {
+      // 각 회차당 최대 300자로 제한
+      const truncated = ep.korean.substring(0, 300);
+      return `[${ep.episode}회차]\n${truncated}${ep.korean.length > 300 ? '...' : ''}`;
+    }).join('\n\n');
     
     const overallCompletion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -111,7 +126,7 @@ export default async function handler(req, res) {
         }
       ],
       temperature: 0.7,
-      max_tokens: 1000
+      max_tokens: 800
     });
 
     const overallAnalysis = overallCompletion.choices[0].message.content.trim();
