@@ -1,10 +1,4 @@
-import https from 'https';
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+import axios from 'axios';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,84 +6,49 @@ export default async function handler(req, res) {
   }
 
   try {
-    let body = '';
-    
-    // 데이터 수신
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
+    const body = JSON.parse(req.body || '{}');
+    const { videoBase64, assemblyAIKey } = body;
 
-    req.on('end', async () => {
-      try {
-        const { videoBase64, assemblyAIKey } = JSON.parse(body);
+    if (!videoBase64 || !assemblyAIKey) {
+      return res.status(400).json({ 
+        error: 'Video data and API key required',
+        success: false 
+      });
+    }
 
-        if (!videoBase64 || !assemblyAIKey) {
-          return res.status(400).json({ error: 'Video data and API key required' });
-        }
+    console.log('Uploading to AssemblyAI...');
 
-        // Base64를 Buffer로 변환
-        const videoBuffer = Buffer.from(videoBase64, 'base64');
+    // Base64를 Buffer로 변환
+    const videoBuffer = Buffer.from(videoBase64, 'base64');
 
-        // AssemblyAI에 업로드
-        const uploadUrl = await uploadToAssemblyAI(videoBuffer, assemblyAIKey);
-
-        return res.status(200).json({
-          success: true,
-          url: uploadUrl,
-          message: 'Video uploaded successfully'
-        });
-
-      } catch (parseError) {
-        console.error('Parse error:', parseError);
-        return res.status(400).json({ error: 'Invalid request data' });
+    // AssemblyAI에 업로드
+    const response = await axios.post(
+      'https://api.assemblyai.com/v2/upload',
+      videoBuffer,
+      {
+        headers: {
+          'authorization': assemblyAIKey,
+          'content-type': 'application/octet-stream',
+        },
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity
       }
+    );
+
+    console.log('Upload successful:', response.data);
+
+    return res.status(200).json({
+      success: true,
+      url: response.data.upload_url,
+      message: 'Video uploaded successfully'
     });
 
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('Upload error:', error.message);
     return res.status(500).json({ 
-      error: 'Internal server error',
-      details: error.message 
+      error: 'Upload failed',
+      details: error.response?.data || error.message,
+      success: false
     });
   }
-}
-
-// AssemblyAI 업로드 헬퍼 함수
-function uploadToAssemblyAI(buffer, apiKey) {
-  return new Promise((resolve, reject) => {
-    const options = {
-      hostname: 'api.assemblyai.com',
-      path: '/v2/upload',
-      method: 'POST',
-      headers: {
-        'authorization': apiKey,
-        'content-type': 'application/octet-stream',
-        'content-length': buffer.length
-      }
-    };
-
-    const req = https.request(options, (response) => {
-      let data = '';
-
-      response.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      response.on('end', () => {
-        if (response.statusCode === 200) {
-          const result = JSON.parse(data);
-          resolve(result.upload_url);
-        } else {
-          reject(new Error(`Upload failed: ${response.statusCode} ${data}`));
-        }
-      });
-    });
-
-    req.on('error', (error) => {
-      reject(error);
-    });
-
-    req.write(buffer);
-    req.end();
-  });
 }
