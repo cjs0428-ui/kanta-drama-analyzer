@@ -131,30 +131,81 @@
       <button id="saveKeysBtn">API 키 저장하고 시작하기</button>
     </div>
 
-    <!-- Step 1: 영상 업로드 -->
+    <!-- Step 1: 영상/CSV 업로드 -->
     <div id="step1" class="card hidden">
       <button class="back-button hidden" onclick="goToStep(0)">← API 키 설정으로 돌아가기</button>
       
-      <h2>📹 영상 업로드 (최대 10개)</h2>
+      <h2>📹 콘텐츠 업로드</h2>
       
-      <div class="info">
-        <p style="margin: 0;">📌 업로드 순서가 회차 순서가 됩니다 (1회차, 2회차...)</p>
-        <p style="margin: 5px 0 0 0;">각 파일은 500MB 이하여야 합니다</p>
+      <!-- 업로드 방식 선택 -->
+      <div style="background: #f9fafb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0; color: #7e22ce;">업로드 방식 선택</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="logic-option selected" onclick="selectUploadMode('video', this)" id="videoModeBtn">
+            <input type="radio" name="uploadMode" id="modeVideo" value="video" checked>
+            <label for="modeVideo">🎥 영상 파일 업로드</label>
+            <div class="description">영상에서 음성을 추출하여 자동으로 대사를 인식합니다</div>
+          </div>
+          
+          <div class="logic-option" onclick="selectUploadMode('csv', this)" id="csvModeBtn">
+            <input type="radio" name="uploadMode" id="modeCSV" value="csv">
+            <label for="modeCSV">📄 CSV 대본 업로드</label>
+            <div class="description">이미 작성된 대본 CSV 파일을 직접 업로드합니다</div>
+          </div>
+        </div>
       </div>
       
-      <div class="file-zone" id="fileZone">
-        <div class="icon">📁</div>
-        <p style="font-size: 18px; font-weight: 600;">클릭해서 영상 선택 (여러 개 선택 가능)</p>
-        <p style="font-size: 14px; color: #666;">또는 드래그 앤 드롭</p>
+      <!-- 영상 업로드 섹션 -->
+      <div id="videoUploadSection">
+        <div class="info">
+          <p style="margin: 0;">📌 업로드 순서가 회차 순서가 됩니다 (1회차, 2회차...)</p>
+          <p style="margin: 5px 0 0 0;">각 파일은 500MB 이하여야 합니다</p>
+        </div>
+        
+        <div class="file-zone" id="fileZone">
+          <div class="icon">📁</div>
+          <p style="font-size: 18px; font-weight: 600;">클릭해서 영상 선택 (여러 개 선택 가능)</p>
+          <p style="font-size: 14px; color: #666;">또는 드래그 앤 드롭</p>
+        </div>
+        <input type="file" id="videoInput" accept="video/*" multiple style="display: none;">
+        
+        <div id="fileList" class="hidden" style="margin-top: 20px;">
+          <h3>선택된 파일 (<span id="fileCount">0</span>/10)</h3>
+          <div id="fileItems"></div>
+        </div>
+        
+        <button id="uploadBtn" class="hidden" style="margin-top: 20px;">모든 영상 업로드 시작</button>
       </div>
-      <input type="file" id="videoInput" accept="video/*" multiple style="display: none;">
       
-      <div id="fileList" class="hidden" style="margin-top: 20px;">
-        <h3>선택된 파일 (<span id="fileCount">0</span>/10)</h3>
-        <div id="fileItems"></div>
+      <!-- CSV 업로드 섹션 -->
+      <div id="csvUploadSection" class="hidden">
+        <div class="info">
+          <p style="margin: 0;">📌 CSV 파일 형식 안내</p>
+          <ul style="margin-left: 20px; margin-top: 10px; text-align: left;">
+            <li><strong>지원 형식 1:</strong> episode, text, speaker (AssemblyAI STT 결과)</li>
+            <li><strong>지원 형식 2:</strong> episode, japanese, korean, speaker (수동 작성)</li>
+            <li>한국어가 없으면 자동으로 번역됩니다</li>
+            <li>여러 회차가 포함된 CSV도 자동 인식</li>
+          </ul>
+        </div>
+        
+        <div class="file-zone" id="csvFileZone">
+          <div class="icon">📄</div>
+          <p style="font-size: 18px; font-weight: 600;">클릭해서 CSV 파일 선택</p>
+          <p style="font-size: 14px; color: #666;">대본이 포함된 CSV 파일을 업로드하세요</p>
+        </div>
+        <input type="file" id="csvInput" accept=".csv" style="display: none;">
+        
+        <div id="csvPreview" class="hidden" style="margin-top: 20px;">
+          <h3>CSV 파일 미리보기</h3>
+          <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; margin: 10px 0;">
+            <div id="csvFileName" style="font-weight: 600; margin-bottom: 10px;"></div>
+            <div id="csvStats" style="font-size: 14px; color: #666;"></div>
+          </div>
+        </div>
+        
+        <button id="csvProcessBtn" class="hidden" style="margin-top: 20px;">CSV 대본 분석 시작</button>
       </div>
-      
-      <button id="uploadBtn" class="hidden" style="margin-top: 20px;">모든 영상 업로드 시작</button>
     </div>
 
     <!-- Step 2: 처리 중 -->
@@ -362,8 +413,31 @@
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <script>
     let selectedLogics = [];
+    let uploadMode = 'video'; // 'video' or 'csv'
+    let csvData = null;
+
+    function selectUploadMode(mode, element) {
+      uploadMode = mode;
+      
+      // 버튼 스타일 업데이트
+      document.getElementById('videoModeBtn').classList.remove('selected');
+      document.getElementById('csvModeBtn').classList.remove('selected');
+      element.classList.add('selected');
+      
+      // 섹션 표시/숨김
+      if (mode === 'video') {
+        document.getElementById('videoUploadSection').classList.remove('hidden');
+        document.getElementById('csvUploadSection').classList.add('hidden');
+      } else {
+        document.getElementById('videoUploadSection').classList.add('hidden');
+        document.getElementById('csvUploadSection').classList.remove('hidden');
+      }
+      
+      addLog('업로드 모드 변경: ' + mode, 'info');
+    }
 
     function toggleLogic(id, element, hasSub = false) {
       const checkbox = document.getElementById(id);
@@ -513,6 +587,9 @@
     const videoInput = document.getElementById('videoInput');
     const uploadBtn = document.getElementById('uploadBtn');
     const clearLogBtn = document.getElementById('clearLogBtn');
+    const csvFileZone = document.getElementById('csvFileZone');
+    const csvInput = document.getElementById('csvInput');
+    const csvProcessBtn = document.getElementById('csvProcessBtn');
     
     addLog('DOM 요소 참조 완료', 'success');
 
@@ -521,6 +598,202 @@
     clearLogBtn.addEventListener('click', function() {
       document.getElementById('logPanel').innerHTML = '';
       addLog('로그 초기화됨', 'info');
+    });
+
+    // CSV 파일 선택 영역 클릭
+    csvFileZone.addEventListener('click', function() {
+      addLog('CSV 파일 선택 영역 클릭됨', 'info');
+      csvInput.click();
+    });
+
+    // CSV 파일 선택
+    csvInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      
+      if (!file) {
+        addLog('CSV 파일 선택 취소됨', 'warning');
+        return;
+      }
+      
+      addLog('CSV 파일 선택됨: ' + file.name, 'success');
+      
+      if (!file.name.endsWith('.csv')) {
+        alert('CSV 파일만 업로드 가능합니다.');
+        addLog('CSV가 아닌 파일', 'error');
+        return;
+      }
+      
+      parseCSVFile(file);
+    });
+
+    function parseCSVFile(file) {
+      addLog('CSV 파싱 시작...', 'info');
+      
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        dynamicTyping: true,
+        complete: function(results) {
+          addLog('CSV 파싱 완료', 'success');
+          addLog('총 ' + results.data.length + '개 행 발견', 'info');
+          
+          csvData = results.data;
+          
+          // 컬럼 감지
+          const columns = Object.keys(csvData[0] || {});
+          addLog('감지된 컬럼: ' + columns.join(', '), 'info');
+          
+          // CSV 미리보기 표시
+          document.getElementById('csvFileName').textContent = '📄 ' + file.name;
+          
+          const episodes = [...new Set(csvData.map(row => row.episode || 1))].length;
+          
+          // text, japanese 중 하나라도 있으면 OK
+          const hasText = csvData.some(row => row.text);
+          const hasJapanese = csvData.some(row => row.japanese);
+          const hasKorean = csvData.some(row => row.korean);
+          const hasSpeaker = csvData.some(row => row.speaker !== undefined);
+          
+          let statsHTML = `
+            <div>총 ${results.data.length}개 대사</div>
+            <div>회차 수: ${episodes}개</div>
+            <div>일본어 대사: ${hasText || hasJapanese ? '✅' : '❌'} ${hasText ? '(text 컬럼)' : hasJapanese ? '(japanese 컬럼)' : ''}</div>
+            <div>한국어 번역: ${hasKorean ? '✅' : '❌ (자동 번역 예정)'}</div>
+            <div>화자 정보: ${hasSpeaker ? '✅' : '❌'}</div>
+          `;
+          
+          document.getElementById('csvStats').innerHTML = statsHTML;
+          document.getElementById('csvPreview').classList.remove('hidden');
+          document.getElementById('csvProcessBtn').classList.remove('hidden');
+          
+          if (!hasText && !hasJapanese) {
+            alert('CSV에 text 또는 japanese 컬럼이 필요합니다.');
+            addLog('필수 컬럼 누락', 'error');
+            document.getElementById('csvProcessBtn').disabled = true;
+          }
+        },
+        error: function(error) {
+          addLog('CSV 파싱 실패: ' + error.message, 'error');
+          alert('CSV 파일 읽기 실패: ' + error.message);
+        }
+      });
+    }
+
+    // CSV 처리 시작
+    csvProcessBtn.addEventListener('click', async function() {
+      addLog('=== CSV 대본 처리 시작 ===', 'info');
+      
+      if (!csvData || csvData.length === 0) {
+        alert('CSV 데이터가 없습니다.');
+        return;
+      }
+      
+      csvProcessBtn.disabled = true;
+      goToStep(2);
+      
+      document.getElementById('processingTitle').textContent = '📄 CSV 대본 처리 중';
+      document.getElementById('processingText').textContent = 'CSV 데이터를 회차별로 정리하고 있습니다...';
+      
+      try {
+        // 회차별로 그룹화
+        const episodeGroups = {};
+        
+        csvData.forEach(row => {
+          const epNum = row.episode || 1;
+          if (!episodeGroups[epNum]) {
+            episodeGroups[epNum] = {
+              japanese: [],
+              korean: [],
+              speakers: []
+            };
+          }
+          
+          // text 또는 japanese 컬럼 사용
+          const japaneseText = row.text || row.japanese || '';
+          const koreanText = row.korean || '';
+          
+          if (japaneseText) {
+            episodeGroups[epNum].japanese.push(japaneseText);
+          }
+          if (koreanText) {
+            episodeGroups[epNum].korean.push(koreanText);
+          }
+          
+          // 화자 정보 (speaker 컬럼)
+          if (row.speaker !== undefined && japaneseText) {
+            episodeGroups[epNum].speakers.push({
+              speaker: row.speaker,
+              text: japaneseText,
+              start: row['start(ms)'] || row.start,
+              end: row['end(ms)'] || row.end
+            });
+          }
+        });
+        
+        episodeData = [];
+        
+        // 회차별 데이터 생성
+        const sortedEpisodes = Object.keys(episodeGroups).sort((a, b) => parseInt(a) - parseInt(b));
+        
+        addLog('감지된 회차: ' + sortedEpisodes.join(', '), 'info');
+        
+        sortedEpisodes.forEach((epNum, index) => {
+          const group = episodeGroups[epNum];
+          
+          const japanese = group.japanese.join('\n');
+          let korean = group.korean.join('\n');
+          
+          // 한국어가 없으면 번역 필요 플래그
+          const needsTranslation = !korean && japanese;
+          
+          episodeData.push({
+            episode: parseInt(epNum),
+            filename: 'CSV 대본 ' + epNum + '회차',
+            japanese: japanese,
+            korean: korean || japanese, // 임시로 일본어 사용
+            speakers: group.speakers,
+            needsTranslation: needsTranslation
+          });
+          
+          addLog(`[${epNum}회차] 대사 ${group.japanese.length}개, 화자 ${group.speakers.length}명`, 'info');
+        });
+        
+        addLog('총 ' + episodeData.length + '개 회차 데이터 생성', 'success');
+        
+        // 번역이 필요한 회차 처리
+        const needsTranslationEpisodes = episodeData.filter(ep => ep.needsTranslation);
+        
+        if (needsTranslationEpisodes.length > 0) {
+          addLog(needsTranslationEpisodes.length + '개 회차 번역 필요', 'info');
+          
+          document.getElementById('processingText').textContent = '한국어 번역이 없는 회차를 번역하고 있습니다...';
+          
+          for (let i = 0; i < needsTranslationEpisodes.length; i++) {
+            const ep = needsTranslationEpisodes[i];
+            updateProgress(i + 1, needsTranslationEpisodes.length, '번역 중');
+            
+            try {
+              const translated = await translateText(ep.japanese, ep.episode);
+              ep.korean = translated;
+              ep.needsTranslation = false;
+              addLog(`[${ep.episode}회차] 번역 완료`, 'success');
+            } catch (error) {
+              addLog(`[${ep.episode}회차] 번역 실패: ${error.message}`, 'error');
+            }
+          }
+        }
+        
+        addLog('=== CSV 대본 처리 완료 ===', 'success');
+        displayEpisodeResults();
+        goToStep(3);
+        
+      } catch (error) {
+        addLog('CSV 처리 실패: ' + error.message, 'error');
+        alert('CSV 처리 중 오류 발생: ' + error.message);
+        goToStep(1);
+      } finally {
+        csvProcessBtn.disabled = false;
+      }
     });
 
     saveKeysBtn.addEventListener('click', function() {
