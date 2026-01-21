@@ -53,17 +53,35 @@
     .progress-bar { width: 100%; height: 20px; background: #e5e7eb; border-radius: 10px; overflow: hidden; margin: 20px 0; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, #9333ea, #c084fc); transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; }
     .criteria-input { background: #faf5ff; border: 2px solid #e9d5ff; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-    .logic-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; }
-    .logic-table th, .logic-table td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; }
-    .logic-table th { background: #f9fafb; font-weight: 600; }
-    .logic-table td:first-child { font-weight: 600; color: #9333ea; }
+    
+    /* 로직 선택 스타일 */
+    .logic-section { background: white; border: 2px solid #e9d5ff; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .logic-section-title { font-size: 1.1rem; font-weight: 700; color: #7e22ce; margin-bottom: 5px; }
+    .logic-section-subtitle { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
+    
     .logic-option { background: white; border: 2px solid #e5e7eb; border-radius: 8px; padding: 15px; margin: 10px 0; cursor: pointer; transition: all 0.3s; }
-    .logic-option:hover { border-color: #9333ea; background: #faf5ff; }
+    .logic-option:hover { border-color: #c084fc; background: #faf5ff; }
     .logic-option.selected { border-color: #9333ea; background: #f3e8ff; }
-    .logic-option input[type="radio"] { margin-right: 10px; }
-    .logic-option label { cursor: pointer; font-weight: 600; color: #333; display: block; margin-bottom: 5px; }
-    .logic-option .description { font-size: 13px; color: #666; margin-top: 5px; }
-    .logic-option .example { font-size: 12px; color: #9333ea; margin-top: 8px; font-style: italic; }
+    .logic-option.sub-option { border-color: #d1d5db; }
+    .logic-option.sub-option:hover { border-color: #9ca3af; }
+    .logic-option.sub-option.selected { border-color: #6b7280; background: #f3f4f6; }
+    
+    .logic-option input[type="checkbox"] { margin-right: 10px; width: 18px; height: 18px; cursor: pointer; }
+    .logic-option label { cursor: pointer; font-weight: 600; color: #333; display: inline; }
+    .logic-option .description { font-size: 13px; color: #666; margin-top: 5px; margin-left: 28px; }
+    .logic-option .example { font-size: 12px; color: #9333ea; margin-top: 8px; margin-left: 28px; font-style: italic; }
+    
+    .sub-options { margin-left: 20px; margin-top: 10px; padding-left: 15px; border-left: 3px solid #e5e7eb; }
+    .sub-option-label { font-size: 0.9rem; color: #666; font-weight: 600; margin: 10px 0 5px 0; }
+    
+    .selected-logics { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 15px; margin: 15px 0; }
+    .selected-logics h4 { color: #16a34a; margin: 0 0 10px 0; }
+    .selected-logics ul { margin-left: 20px; }
+    .selected-logics li { color: #16a34a; margin: 5px 0; }
+    
+    .ad-result-section { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+    .ad-result-title { font-weight: 600; color: #7e22ce; margin-bottom: 10px; display: flex; align-items: center; }
+    .ad-result-title .badge { background: #9333ea; color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; margin-left: 10px; }
   </style>
 </head>
 <body>
@@ -113,7 +131,7 @@
       <button id="saveKeysBtn">API 키 저장하고 시작하기</button>
     </div>
 
-    <!-- Step 1: 영상 업로드 (다중 업로드) -->
+    <!-- Step 1: 영상 업로드 -->
     <div id="step1" class="card hidden">
       <button class="back-button hidden" onclick="goToStep(0)">← API 키 설정으로 돌아가기</button>
       
@@ -190,64 +208,95 @@
       </div>
 
       <!-- 로직 선택 섹션 -->
-      <div style="background: white; border: 2px solid #e9d5ff; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0;">📐 광고 문구 로직 선택</h3>
-        <p style="text-align: left; font-size: 14px; color: #666; margin-bottom: 15px;">광고 문구의 전개 방식을 선택하세요</p>
+      <div class="logic-section">
+        <div class="logic-section-title">📐 광고 문구 로직 선택 (복수 선택 가능)</div>
+        <p class="logic-section-subtitle">원하는 광고 전개 방식을 여러 개 선택하세요. 각 로직별로 문구가 생성됩니다.</p>
         
-        <div class="logic-option selected" onclick="selectLogic(this, 'logic1')">
-          <input type="radio" name="logic" id="logic1" value="결과(정량)를 먼저 보여준 뒤, 원인으로 돌아가 시사를 제공하여 공감을 유발" checked>
+        <h4 style="margin: 20px 0 10px 0; color: #9333ea;">🎯 메인 로직 (1-4번)</h4>
+        
+        <div class="logic-option" onclick="toggleLogic('logic1', this)">
+          <input type="checkbox" id="logic1" value="시간 역행 + 구조">
           <label for="logic1">기준 1: 시간 역행 + 구조</label>
           <div class="description">결과(정량)를 먼저 보여준 뒤, 원인으로 돌아가 시사를 제공하여 공감을 유발</div>
           <div class="example">예: "지금은 상사를 품에 안겨 있지만, 10분 전엔 헤어지겠다던 그녀?"</div>
         </div>
 
-        <div class="logic-option" onclick="selectLogic(this, 'logic2')">
-          <input type="radio" name="logic" id="logic2" value="첫 문장(예정)로 인해 보어준 뒤, 예상으로 풀이가 시사를 섞어 맥결적 서사 전달">
+        <div class="logic-option" onclick="toggleLogic('logic2', this)">
+          <input type="checkbox" id="logic2" value="원인과제 & 결말 구조">
           <label for="logic2">기준 2: 원인과제 & 결말 구조</label>
           <div class="description">첫 문장(예정)로 인해 보어준 뒤, 예상으로 풀이가 시사를 섞어 맥결적 서사 전달</div>
           <div class="example">예: "소에냐이 먼저 떠났다 보니! 지금 그 소에냐의 시샘가 너무 자연스러워 남친?"</div>
         </div>
 
-        <div class="logic-option" onclick="selectLogic(this, 'logic3')">
-          <input type="radio" name="logic" id="logic3" value="시청자를 관찰자에서 '당사자'로 전환시키기 위해 이분법적 선택지나 도덕적 질문 투척">
+        <div class="logic-option" onclick="toggleLogic('logic3', this)">
+          <input type="checkbox" id="logic3" value="시고 유도형 질문">
           <label for="logic3">기준 3: 시고 유도형 질문</label>
           <div class="description">시청자를 관찰자에서 '당사자'로 전환시키기 위해 이분법적 선택지나 도덕적 질문 투척</div>
           <div class="example">예: "가질한 상사 VS 다정한 소꿉친구, 당신의 선택은?"</div>
         </div>
 
-        <div class="logic-option" onclick="selectLogic(this, 'logic4')">
-          <input type="radio" name="logic" id="logic4" value="라이벌 & 관계성 강조 - 라이벌끼리 살갗관계(대립/갈등 강조형)">
+        <div class="logic-option" onclick="toggleLogic('logic4', this, true)">
+          <input type="checkbox" id="logic4" value="비주얼 & 관계성 강조">
           <label for="logic4">기준 4: 비주얼 & 관계성 강조</label>
-          <div class="description">라이벌 & 관계성 강조 - 라이벌끼리 살갗관계(대립/갈등 강조형)</div>
+          <div class="description">라이벌 & 관계성 강조 - 라이벌끼리 삼각관계(대립/갈등 강조형)</div>
           <div class="example">예: "형제도 절대 양보 못 해. 한 여자를 두 남자의 치열한 로맨스 전쟁!"</div>
+          
+          <div class="sub-options hidden" id="logic4-sub">
+            <div class="sub-option-label">세부 옵션 선택:</div>
+            
+            <div class="logic-option sub-option" onclick="toggleSubLogic('logic4-1', this, event)">
+              <input type="checkbox" id="logic4-1" value="다채로운 비주얼 뷔페 (캐릭터 나열형)">
+              <label for="logic4-1">다채로운 비주얼 뷔페 (캐릭터 나열형)</label>
+              <div class="description">다양한 캐릭터들을 나열하며 시각적 풍성함 강조</div>
+            </div>
+            
+            <div class="logic-option sub-option" onclick="toggleSubLogic('logic4-2', this, event)">
+              <input type="checkbox" id="logic4-2" value="라이벌리 & 삼각관계 (대립/갈등 강조형)">
+              <label for="logic4-2">라이벌리 & 삼각관계 (대립/갈등 강조형)</label>
+              <div class="description">경쟁 구도와 대립 관계를 강조</div>
+            </div>
+            
+            <div class="logic-option sub-option" onclick="toggleSubLogic('logic4-3', this, event)">
+              <input type="checkbox" id="logic4-3" value="커플 케미 & 무드 (투샷/감성 강조형)">
+              <label for="logic4-3">커플 케미 & 무드 (투샷/감성 강조형)</label>
+              <div class="description">두 사람의 케미와 감성적 분위기 강조</div>
+            </div>
+          </div>
         </div>
 
-        <div class="logic-option" onclick="selectLogic(this, 'logic5')">
-          <input type="radio" name="logic" id="logic5" value="감정이 고조되거나 반전이 발생시키 직전 결정적 순간에 시사를 끊어 '못내울 후'">
+        <h4 style="margin: 30px 0 10px 0; color: #6b7280;">✨ 서브 로직 (5-8번, 선택사항)</h4>
+
+        <div class="logic-option sub-option" onclick="toggleLogic('logic5', this)">
+          <input type="checkbox" id="logic5" value="절벽매달 (Cliffhanger)">
           <label for="logic5">기준 5 (NEW): 절벽매달 (Cliffhanger)</label>
           <div class="description">감정이 고조되거나 반전이 발생시키 직전 결정적 순간에 시사를 끊어 '못내울 후' 유도</div>
           <div class="example">예: "드디어 열린 본 뒤에 서 있던 사람은, 죽은 줄 알았던 첫사랑이었다...?"</div>
         </div>
 
-        <div class="logic-option" onclick="selectLogic(this, 'logic6')">
-          <input type="radio" name="logic" id="logic6" value="사용자를 이야기 속 특정 역할(주인공)로 설정하여 즉각적인 감정 이입과 책임감 유발">
+        <div class="logic-option sub-option" onclick="toggleLogic('logic6', this)">
+          <input type="checkbox" id="logic6" value="정체성 부여 (POV)">
           <label for="logic6">기준 6 (NEW): 정체성 부여 (POV)</label>
           <div class="description">사용자를 이야기 속 특정 역할(주인공)로 설정하여 즉각적인 감정 이입과 책임감 유발</div>
           <div class="example">예: "당신은 평범한 비서가 아닙니다. 사실 이 재국의 유일한 상속녀죠."</div>
         </div>
 
-        <div class="logic-option" onclick="selectLogic(this, 'logic7')">
-          <input type="radio" name="logic" id="logic7" value="무시당한 주인공의 극적인 신분 상승이나 복수 성공 시점을 보여주며 대리 만족 선사">
+        <div class="logic-option sub-option" onclick="toggleLogic('logic7', this)">
+          <input type="checkbox" id="logic7" value="카타르시스 (복수/보상)">
           <label for="logic7">기준 7 (NEW): 카타르시스 (복수/보상)</label>
           <div class="description">무시당한 주인공의 극적인 신분 상승이나 복수 성공 시점을 보여주며 대리 만족 선사</div>
           <div class="example">예: "나를 버린 전 남친이 지금 내 걸음에 입을 맞추며 빌고 있다면 얼마나 냉소?"</div>
         </div>
 
-        <div class="logic-option" onclick="selectLogic(this, 'logic8')">
-          <input type="radio" name="logic" id="logic8" value="누구나 알지만 말하지 못하는 비밀이나 금지된 관계를 암급해 본능적인 클릭 유도">
+        <div class="logic-option sub-option" onclick="toggleLogic('logic8', this)">
+          <input type="checkbox" id="logic8" value="금기된 호기심 (Secret)">
           <label for="logic8">기준 8 (NEW): 금기된 호기심 (Secret)</label>
           <div class="description">누구나 알지만 말하지 못하는 비밀이나 금지된 관계를 암급해 본능적인 클릭 유도</div>
           <div class="example">예: "완벽한 본부장의 유일한 약점, 밤마다 나를 찾는 이유는..."</div>
+        </div>
+
+        <div id="selectedLogicsDisplay" class="selected-logics hidden">
+          <h4>✅ 선택된 로직:</h4>
+          <ul id="selectedLogicsList"></ul>
         </div>
       </div>
       
@@ -290,7 +339,7 @@
         <input type="text" id="keyword" placeholder="예: 로맨스, 반전, 감동">
         
         <label>추가 요구사항 (선택사항)</label>
-        <textarea id="additionalRequirements" placeholder="예: 호기심을 자극하는 질문형 문구로 작성해주세요&#10;예: 주인공의 감정선을 중심으로 작성해주세요&#10;예: 이 네가지 기준들을 종합적으로 활용하여 영상 소재 오프닝 나레이션을 작성하기."></textarea>
+        <textarea id="additionalRequirements" placeholder="예: 호기심을 자극하는 질문형 문구로 작성해주세요&#10;예: 주인공의 감정선을 중심으로 작성해주세요"></textarea>
       </div>
       
       <button id="generateAdBtn">일본어 광고 문구 생성하기</button>
@@ -302,11 +351,7 @@
       
       <h2>✨ 생성된 광고 문구</h2>
       
-      <h3>🇯🇵 일본어 광고 문구</h3>
-      <div id="adResultJapanese" style="background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%); padding: 30px; border-radius: 12px; font-size: 18px; line-height: 1.8; white-space: pre-wrap; margin-bottom: 20px;"></div>
-      
-      <h3>🇰🇷 한국어 번역</h3>
-      <div id="adResultKorean" style="background: linear-gradient(135deg, #e0f2fe 0%, #ddd6fe 100%); padding: 30px; border-radius: 12px; font-size: 18px; line-height: 1.8; white-space: pre-wrap;"></div>
+      <div id="allAdResults"></div>
       
       <div class="button-group">
         <button id="downloadBtn" style="background: #16a34a;">📥 결과 다운로드</button>
@@ -318,14 +363,78 @@
   </div>
 
   <script>
-    // 로직 선택 함수
-    function selectLogic(element, radioId) {
-      document.querySelectorAll('.logic-option').forEach(opt => opt.classList.remove('selected'));
-      element.classList.add('selected');
-      document.getElementById(radioId).checked = true;
+    let selectedLogics = [];
+
+    function toggleLogic(id, element, hasSub = false) {
+      const checkbox = document.getElementById(id);
+      checkbox.checked = !checkbox.checked;
+      
+      if (checkbox.checked) {
+        element.classList.add('selected');
+        if (!selectedLogics.includes(id)) {
+          selectedLogics.push(id);
+        }
+        if (hasSub) {
+          document.getElementById(id + '-sub').classList.remove('hidden');
+        }
+      } else {
+        element.classList.remove('selected');
+        selectedLogics = selectedLogics.filter(l => l !== id);
+        if (hasSub) {
+          document.getElementById(id + '-sub').classList.add('hidden');
+          // 서브 옵션도 모두 해제
+          ['logic4-1', 'logic4-2', 'logic4-3'].forEach(subId => {
+            const subCheckbox = document.getElementById(subId);
+            if (subCheckbox) {
+              subCheckbox.checked = false;
+              selectedLogics = selectedLogics.filter(l => l !== subId);
+            }
+          });
+          document.querySelectorAll('#logic4-sub .sub-option').forEach(el => el.classList.remove('selected'));
+        }
+      }
+      
+      updateSelectedLogicsDisplay();
     }
 
-    // 로그 함수
+    function toggleSubLogic(id, element, event) {
+      event.stopPropagation();
+      const checkbox = document.getElementById(id);
+      checkbox.checked = !checkbox.checked;
+      
+      if (checkbox.checked) {
+        element.classList.add('selected');
+        if (!selectedLogics.includes(id)) {
+          selectedLogics.push(id);
+        }
+      } else {
+        element.classList.remove('selected');
+        selectedLogics = selectedLogics.filter(l => l !== id);
+      }
+      
+      updateSelectedLogicsDisplay();
+    }
+
+    function updateSelectedLogicsDisplay() {
+      const display = document.getElementById('selectedLogicsDisplay');
+      const list = document.getElementById('selectedLogicsList');
+      
+      if (selectedLogics.length === 0) {
+        display.classList.add('hidden');
+        return;
+      }
+      
+      display.classList.remove('hidden');
+      list.innerHTML = '';
+      
+      selectedLogics.forEach(logicId => {
+        const checkbox = document.getElementById(logicId);
+        const li = document.createElement('li');
+        li.textContent = checkbox.value;
+        list.appendChild(li);
+      });
+    }
+
     function addLog(message, type) {
       const logPanel = document.getElementById('logPanel');
       const logItem = document.createElement('div');
@@ -339,14 +448,12 @@
 
     addLog('시스템 초기화 시작', 'info');
     
-    // 전역 변수
     let apiKeys = { assemblyAI: '', openAI: '' };
     let selectedFiles = [];
     let episodeData = [];
     let overallStoryAnalysis = '';
     let currentStep = 0;
 
-    // API 키 localStorage에서 불러오기
     function loadApiKeys() {
       const savedKeys = localStorage.getItem('kanta_api_keys');
       addLog('localStorage 확인 중...', 'info');
@@ -385,7 +492,6 @@
       return false;
     }
 
-    // 페이지 단계 이동
     function goToStep(step) {
       addLog('Step ' + step + '으로 이동', 'info');
       
@@ -401,7 +507,6 @@
       }
     }
 
-    // DOM 요소
     const saveKeysBtn = document.getElementById('saveKeysBtn');
     const changeApiBtn = document.getElementById('changeApiBtn');
     const fileZone = document.getElementById('fileZone');
@@ -436,8 +541,6 @@
       localStorage.setItem('kanta_api_keys', JSON.stringify(apiKeys));
       
       addLog('API 키 저장 완료 (localStorage)', 'success');
-      addLog('AssemblyAI 키: ' + assemblyKey.substring(0, 10) + '... (길이: ' + assemblyKey.length + ')', 'info');
-      addLog('OpenAI 키: ' + openaiKey.substring(0, 10) + '... (길이: ' + openaiKey.length + ')', 'info');
       
       document.getElementById('step0').classList.add('hidden');
       document.getElementById('apiKeyStatus').classList.remove('hidden');
@@ -456,7 +559,6 @@
     });
 
     fileZone.addEventListener('click', function() {
-      addLog('파일 선택 영역 클릭됨', 'info');
       videoInput.click();
     });
 
@@ -487,16 +589,10 @@
     });
 
     function handleFileSelection(files) {
-      addLog('파일 선택 처리 시작', 'info');
-      
-      if (files.length === 0) {
-        addLog('파일 선택 취소됨', 'warning');
-        return;
-      }
+      if (files.length === 0) return;
       
       if (selectedFiles.length + files.length > 10) {
         alert('최대 10개까지만 업로드 가능합니다.');
-        addLog('파일 개수 초과 (최대 10개)', 'error');
         return;
       }
       
@@ -504,13 +600,11 @@
       
       if (videoFiles.length !== files.length) {
         alert('비디오 파일만 업로드 가능합니다.');
-        addLog('비디오가 아닌 파일 제외됨', 'warning');
       }
       
       const oversizedFiles = videoFiles.filter(f => f.size > 500 * 1024 * 1024);
       if (oversizedFiles.length > 0) {
         alert('500MB를 초과하는 파일이 있습니다:\n' + oversizedFiles.map(f => f.name).join('\n'));
-        addLog('500MB 초과 파일 발견', 'error');
         return;
       }
       
@@ -555,20 +649,14 @@
 
     function removeFile(index) {
       selectedFiles.splice(index, 1);
-      addLog('파일 삭제됨', 'info');
       updateFileList();
     }
 
     uploadBtn.addEventListener('click', async function() {
       addLog('=== 업로드 프로세스 시작 ===', 'info');
-      addLog('총 ' + selectedFiles.length + '개 파일 업로드 시작', 'info');
-      addLog('현재 API 키 상태:', 'info');
-      addLog('- AssemblyAI: ' + (apiKeys.assemblyAI ? apiKeys.assemblyAI.substring(0, 10) + '...' : '없음'), apiKeys.assemblyAI ? 'success' : 'error');
-      addLog('- OpenAI: ' + (apiKeys.openAI ? apiKeys.openAI.substring(0, 10) + '...' : '없음'), apiKeys.openAI ? 'success' : 'error');
       
       if (!apiKeys.assemblyAI || !apiKeys.openAI) {
-        alert('API 키가 설정되지 않았습니다. API 키를 먼저 설정해주세요.');
-        addLog('API 키 누락으로 중단', 'error');
+        alert('API 키가 설정되지 않았습니다.');
         return;
       }
       
@@ -584,22 +672,15 @@
         updateProgress(episodeNum, selectedFiles.length, '업로드 중');
         
         try {
-          addLog(`[${episodeNum}회차] 업로드 시작: ${file.name}`, 'info');
-          
           const uploadResponse = await fetch('https://api.assemblyai.com/v2/upload', {
             method: 'POST',
             headers: { 'authorization': apiKeys.assemblyAI },
             body: file
           });
           
-          if (!uploadResponse.ok) {
-            const errorText = await uploadResponse.text();
-            addLog(`[${episodeNum}회차] 업로드 실패: ${errorText}`, 'error');
-            throw new Error('업로드 실패: ' + errorText);
-          }
+          if (!uploadResponse.ok) throw new Error('업로드 실패');
           
           const uploadData = await uploadResponse.json();
-          addLog(`[${episodeNum}회차] 업로드 완료`, 'success');
           
           updateProgress(episodeNum, selectedFiles.length, '음성 인식 중');
           
@@ -617,16 +698,10 @@
             })
           });
           
-          if (!transcribeResponse.ok) {
-            const errorText = await transcribeResponse.text();
-            addLog(`[${episodeNum}회차] 음성 인식 요청 실패: ${errorText}`, 'error');
-            throw new Error('음성 인식 요청 실패: ' + errorText);
-          }
+          if (!transcribeResponse.ok) throw new Error('음성 인식 요청 실패');
           
           const transcribeData = await transcribeResponse.json();
           const transcriptionId = transcribeData.id;
-          
-          addLog(`[${episodeNum}회차] 음성 인식 시작 (ID: ${transcriptionId})`, 'info');
           
           const transcript = await waitForTranscription(transcriptionId, episodeNum);
           
@@ -649,7 +724,6 @@
         }
       }
       
-      addLog('=== 모든 파일 처리 완료 ===', 'success');
       displayEpisodeResults();
       goToStep(3);
       uploadBtn.disabled = false;
@@ -670,13 +744,9 @@
               headers: { 'authorization': apiKeys.assemblyAI }
             });
             
-            if (!response.ok) {
-              const errorText = await response.text();
-              throw new Error('상태 확인 실패: ' + errorText);
-            }
+            if (!response.ok) throw new Error('상태 확인 실패');
             
             const data = await response.json();
-            addLog(`[${episodeNum}회차] 상태: ${data.status}`, 'info');
             
             if (data.status === 'completed') {
               clearInterval(interval);
@@ -694,45 +764,29 @@
     }
 
     async function translateText(text, episodeNum) {
-      addLog(`[${episodeNum}회차] 번역 시작`, 'info');
-      addLog(`API 키 확인: ${apiKeys.openAI ? '있음 (' + apiKeys.openAI.substring(0, 10) + '...)' : '없음'}`, apiKeys.openAI ? 'info' : 'error');
-      
       if (!apiKeys.openAI) {
-        throw new Error('OpenAI API 키가 없습니다. API 키를 다시 설정해주세요.');
+        throw new Error('OpenAI API 키가 없습니다.');
       }
       
-      const requestBody = { 
-        text: text,
-        openAIKey: apiKeys.openAI
-      };
+      const response = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ 
+          text: text,
+          openAIKey: apiKeys.openAI
+        })
+      });
       
-      addLog(`요청 데이터: text length=${text.length}, key length=${apiKeys.openAI.length}`, 'info');
+      const data = await response.json();
       
-      try {
-        const response = await fetch('/api/translate', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(requestBody)
-        });
-        
-        addLog(`번역 API 응답 상태: ${response.status}`, response.ok ? 'success' : 'error');
-        
-        const data = await response.json();
-        addLog(`번역 API 응답: ${JSON.stringify(data).substring(0, 150)}`, 'info');
-        
-        if (!data.success) {
-          throw new Error(data.error || '번역 실패');
-        }
-        
-        addLog(`[${episodeNum}회차] 번역 완료`, 'success');
-        return data.translatedText;
-      } catch (error) {
-        addLog(`[${episodeNum}회차] 번역 실패: ${error.message}`, 'error');
-        throw error;
+      if (!data.success) {
+        throw new Error(data.error || '번역 실패');
       }
+      
+      return data.translatedText;
     }
 
     function displayEpisodeResults() {
@@ -776,8 +830,6 @@
     }
 
     document.getElementById('analyzeBtn').addEventListener('click', async function() {
-      addLog('전체 스토리 분석 시작', 'info');
-      
       goToStep(2);
       document.getElementById('processingTitle').textContent = '📊 스토리 분석 중...';
       document.getElementById('processingText').textContent = '회차별 및 전체 스토리를 분석하고 있습니다...';
@@ -800,11 +852,9 @@
         
         displayStoryAnalysis(data.episodeAnalysis, data.overallAnalysis);
         
-        addLog('스토리 분석 완료', 'success');
         goToStep(4);
         
       } catch (error) {
-        addLog('분석 실패: ' + error.message, 'error');
         alert('분석 실패: ' + error.message);
         goToStep(3);
       }
@@ -834,14 +884,22 @@
     });
 
     document.getElementById('generateAdBtn').addEventListener('click', async function() {
-      addLog('광고 문구 생성 시작', 'info');
+      if (selectedLogics.length === 0) {
+        alert('최소 1개 이상의 로직을 선택해주세요.');
+        return;
+      }
+      
+      addLog('선택된 로직 수: ' + selectedLogics.length, 'info');
       
       goToStep(2);
       document.getElementById('processingTitle').textContent = '✨ 광고 문구 생성 중...';
-      document.getElementById('processingText').textContent = '일본어 광고 문구를 생성하고 있습니다...';
+      document.getElementById('processingText').textContent = selectedLogics.length + '개 로직별 일본어 광고 문구를 생성하고 있습니다...';
       
       try {
-        const selectedLogic = document.querySelector('input[name="logic"]:checked').value;
+        const logicTypes = selectedLogics.map(id => {
+          const checkbox = document.getElementById(id);
+          return checkbox.value;
+        });
         
         const criteria = {
           targetAge: document.getElementById('targetAge').value,
@@ -850,10 +908,8 @@
           length: document.getElementById('adLength').value,
           keyword: document.getElementById('keyword').value,
           additionalRequirements: document.getElementById('additionalRequirements').value,
-          logicType: selectedLogic
+          logicTypes: logicTypes
         };
-        
-        addLog('선택된 로직: ' + selectedLogic, 'info');
         
         const response = await fetch('/api/generate-ad', {
           method: 'POST',
@@ -870,19 +926,40 @@
         
         if (!data.success) throw new Error(data.error || '광고 생성 실패');
         
-        addLog('광고 문구 생성 완료', 'success');
-        
-        document.getElementById('adResultJapanese').textContent = data.japaneseAd;
-        document.getElementById('adResultKorean').textContent = data.koreanAd;
+        displayAdResults(data.adCopies);
         
         goToStep(6);
         
       } catch (error) {
-        addLog('광고 생성 실패: ' + error.message, 'error');
         alert('광고 생성 실패: ' + error.message);
         goToStep(5);
       }
     });
+
+    function displayAdResults(adCopies) {
+      const container = document.getElementById('allAdResults');
+      container.innerHTML = '';
+      
+      adCopies.forEach((ad, index) => {
+        const section = document.createElement('div');
+        section.className = 'ad-result-section';
+        
+        section.innerHTML = `
+          <div class="ad-result-title">
+            ${ad.logicType}
+            <span class="badge">${index + 1}/${adCopies.length}</span>
+          </div>
+          
+          <h3 style="margin-top: 20px;">🇯🇵 일본어 광고 문구</h3>
+          <div style="background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%); padding: 25px; border-radius: 8px; font-size: 17px; line-height: 1.8; white-space: pre-wrap; margin: 10px 0;">${ad.japaneseAd}</div>
+          
+          <h3 style="margin-top: 15px;">🇰🇷 한국어 번역</h3>
+          <div style="background: linear-gradient(135deg, #e0f2fe 0%, #ddd6fe 100%); padding: 25px; border-radius: 8px; font-size: 17px; line-height: 1.8; white-space: pre-wrap; margin: 10px 0;">${ad.koreanAd}</div>
+        `;
+        
+        container.appendChild(section);
+      });
+    }
 
     document.getElementById('regenerateBtn').addEventListener('click', function() {
       goToStep(5);
@@ -899,8 +976,18 @@
       });
       
       content += `\n\n전체 스토리 분석:\n${overallStoryAnalysis}\n\n`;
-      content += `일본어 광고 문구:\n${document.getElementById('adResultJapanese').textContent}\n\n`;
-      content += `한국어 번역:\n${document.getElementById('adResultKorean').textContent}`;
+      
+      const allAdResults = document.getElementById('allAdResults').querySelectorAll('.ad-result-section');
+      allAdResults.forEach((section, index) => {
+        const title = section.querySelector('.ad-result-title').textContent.split('\n')[0];
+        const jpAd = section.querySelectorAll('div[style*="gradient"]')[0].textContent;
+        const krAd = section.querySelectorAll('div[style*="gradient"]')[1].textContent;
+        
+        content += `\n\n[광고 문구 ${index + 1}] ${title}\n`;
+        content += `\n일본어:\n${jpAd}\n`;
+        content += `\n한국어:\n${krAd}\n`;
+        content += '\n' + '='.repeat(50);
+      });
       
       const blob = new Blob([content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
@@ -913,7 +1000,6 @@
       addLog('결과 다운로드 완료', 'success');
     });
     
-    addLog('모든 이벤트 리스너 등록 완료', 'success');
     addLog('시스템 준비 완료 ✅', 'success');
   </script>
 </body>
