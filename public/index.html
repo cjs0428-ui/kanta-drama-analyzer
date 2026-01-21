@@ -10,6 +10,7 @@
     .container { max-width: 800px; margin: 0 auto; }
     .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 20px; }
     h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; }
+    h2 { font-size: 1.5rem; margin-bottom: 20px; }
     p { text-align: center; color: #666; margin-bottom: 30px; }
     label { display: block; font-weight: 600; margin-bottom: 8px; }
     input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; font-size: 16px; }
@@ -21,16 +22,33 @@
     .file-zone .icon { font-size: 4rem; margin-bottom: 20px; }
     .hidden { display: none; }
     .progress { text-align: center; padding: 40px; }
-    .progress .spinner { font-size: 4rem; animation: spin 2s linear infinite; }
+    .progress .spinner { font-size: 4rem; animation: spin 2s linear infinite; display: inline-block; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .result { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 20px; margin-top: 20px; white-space: pre-wrap; line-height: 1.6; }
     .info { background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px; padding: 15px; margin: 20px 0; font-size: 14px; color: #1e40af; }
+    .error { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: 20px; margin: 20px 0; color: #dc2626; }
+    .success { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 20px; margin: 20px 0; color: #16a34a; }
+    .warning { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 20px; margin: 20px 0; color: #d97706; }
+    .log { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; margin-top: 20px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+    .log-item { margin: 5px 0; padding: 5px; }
+    .log-info { color: #0ea5e9; }
+    .log-success { color: #16a34a; }
+    .log-error { color: #dc2626; }
+    .log-warning { color: #d97706; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>🎬 KANTA 숏드라마 분석기</h1>
     <p>일본 드라마 대사를 자동으로 번역하고 분석해서 광고 문구를 만들어드립니다</p>
+
+    <!-- 로그 패널 -->
+    <div class="card">
+      <h2>📋 실행 로그</h2>
+      <div id="logPanel" class="log">
+        <div class="log-item log-info">시스템 준비 완료</div>
+      </div>
+    </div>
 
     <!-- Step 0: API 키 입력 -->
     <div id="step0" class="card">
@@ -68,6 +86,8 @@
       <input type="file" id="videoInput" accept="video/*" class="hidden" onchange="selectFile(this)">
       
       <button id="uploadBtn" class="hidden" onclick="uploadVideo()">업로드 시작</button>
+      
+      <div id="uploadStatus" class="hidden"></div>
     </div>
 
     <!-- Step 2: 진행 중 -->
@@ -78,94 +98,35 @@
         <p id="statusDetail" style="color: #666; margin-top: 10px;"></p>
       </div>
     </div>
-
-    <!-- Step 3: 음성 인식 -->
-    <div id="step3" class="card hidden">
-      <h2>🎤 음성 인식 중</h2>
-      <div class="progress">
-        <div class="spinner">⏳</div>
-        <p id="transcribeStatus">일본어 대사를 추출하고 있습니다...</p>
-      </div>
-    </div>
-
-    <!-- Step 4: 결과 -->
-    <div id="step4" class="card hidden">
-      <h2>📝 일본어 대사 (원문)</h2>
-      <div class="result" id="japaneseResult"></div>
-      
-      <h2 style="margin-top: 30px;">🇰🇷 한글 번역</h2>
-      <div id="translating" class="progress hidden">
-        <div class="spinner" style="font-size: 2rem;">⏳</div>
-        <p>번역 중...</p>
-      </div>
-      <div class="result hidden" id="koreanResult"></div>
-      
-      <button onclick="analyzeStory()" id="analyzeBtn" class="hidden" style="margin-top: 20px;">스토리 분석하기</button>
-    </div>
-
-    <!-- Step 5: 스토리 분석 -->
-    <div id="step5" class="card hidden">
-      <h2>📊 스토리 분석</h2>
-      <div class="result" id="analysisResult"></div>
-      
-      <h2 style="margin-top: 30px;">🎯 광고 문구 기준 설정</h2>
-      
-      <label>타겟 연령대</label>
-      <select id="targetAge">
-        <option>10대</option>
-        <option selected>20-30대</option>
-        <option>40-50대</option>
-        <option>전연령</option>
-      </select>
-      
-      <label>톤 & 무드</label>
-      <select id="tone">
-        <option selected>감성적</option>
-        <option>유머러스</option>
-        <option>진지한</option>
-        <option>설레는</option>
-      </select>
-      
-      <label>플랫폼</label>
-      <select id="platform">
-        <option selected>인스타그램</option>
-        <option>유튜브</option>
-        <option>틱톡</option>
-      </select>
-      
-      <label>키워드 (선택)</label>
-      <input type="text" id="keyword" placeholder="예: 로맨스, 반전">
-      
-      <button onclick="generateAd()">광고 문구 생성</button>
-    </div>
-
-    <!-- Step 6: 광고 문구 -->
-    <div id="step6" class="card hidden">
-      <h2>✨ 생성된 광고 문구</h2>
-      <div class="result" id="adResult" style="background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%); font-size: 18px;"></div>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
-        <button onclick="downloadResult()" style="background: #16a34a;">📥 결과 다운로드</button>
-        <button onclick="location.reload()" style="background: #6b7280;">🔄 새로운 분석</button>
-      </div>
-    </div>
   </div>
 
   <script>
-    console.log('🟢 스크립트 시작');
+    // 로그 함수
+    function addLog(message, type = 'info') {
+      const logPanel = document.getElementById('logPanel');
+      const logItem = document.createElement('div');
+      logItem.className = 'log-item log-' + type;
+      const time = new Date().toLocaleTimeString();
+      logItem.textContent = '[' + time + '] ' + message;
+      logPanel.appendChild(logItem);
+      logPanel.scrollTop = logPanel.scrollHeight;
+      
+      console.log('[' + type.toUpperCase() + ']', message);
+    }
+
+    addLog('스크립트 로드 완료', 'success');
     
     let apiKeys = { assemblyAI: '', openAI: '' };
     let selectedFile = null;
-    let transcriptionId = null;
-    let japaneseText = '';
-    let koreanText = '';
-    let storyAnalysis = '';
 
     function saveKeys() {
+      addLog('API 키 저장 시도...', 'info');
+      
       const assemblyKey = document.getElementById('assemblyKey').value.trim();
       const openaiKey = document.getElementById('openaiKey').value.trim();
       
       if (!assemblyKey || !openaiKey) {
+        addLog('API 키가 입력되지 않았습니다', 'error');
         alert('두 개의 API 키를 모두 입력해주세요.');
         return;
       }
@@ -173,203 +134,148 @@
       apiKeys.assemblyAI = assemblyKey;
       apiKeys.openAI = openaiKey;
       
-      console.log('✅ API 키 저장됨');
+      addLog('API 키 저장 완료', 'success');
+      addLog('AssemblyAI 키 길이: ' + assemblyKey.length + '자', 'info');
+      addLog('OpenAI 키 길이: ' + openaiKey.length + '자', 'info');
       
       document.getElementById('step0').classList.add('hidden');
       document.getElementById('step1').classList.remove('hidden');
+      
+      addLog('영상 업로드 단계로 이동', 'info');
     }
 
     function selectFile(input) {
       const file = input.files[0];
-      if (!file) return;
+      if (!file) {
+        addLog('파일 선택 취소', 'warning');
+        return;
+      }
+      
+      addLog('파일 선택됨: ' + file.name, 'info');
+      addLog('파일 타입: ' + file.type, 'info');
+      addLog('파일 크기: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB', 'info');
       
       if (!file.type.startsWith('video/')) {
+        addLog('비디오 파일이 아닙니다: ' + file.type, 'error');
         alert('비디오 파일만 업로드 가능합니다.');
         return;
       }
       
+      if (file.size > 500 * 1024 * 1024) {
+        addLog('파일 크기 초과: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB', 'error');
+        alert('파일이 너무 큽니다. 500MB 이하의 영상을 선택해주세요.');
+        return;
+      }
+      
       selectedFile = file;
-      console.log('📁 파일 선택됨:', file.name, file.size);
       
       document.getElementById('fileName').textContent = '✅ ' + file.name;
       document.getElementById('fileSize').textContent = '크기: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB';
       document.getElementById('uploadBtn').classList.remove('hidden');
+      
+      addLog('파일 검증 완료, 업로드 가능', 'success');
     }
 
     async function uploadVideo() {
       if (!selectedFile) {
+        addLog('파일이 선택되지 않았습니다', 'error');
         alert('파일을 선택해주세요.');
         return;
       }
       
-      console.log('📤 Vercel Blob으로 업로드 시작');
+      addLog('=== 업로드 프로세스 시작 ===', 'info');
+      addLog('파일명: ' + selectedFile.name, 'info');
+      addLog('크기: ' + selectedFile.size + ' bytes', 'info');
       
-      document.getElementById('step1').classList.add('hidden');
-      document.getElementById('step2').classList.remove('hidden');
-      document.getElementById('statusText').textContent = 'Vercel Blob에 업로드 중...';
-      document.getElementById('statusDetail').textContent = selectedFile.name;
+      const uploadBtn = document.getElementById('uploadBtn');
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = '업로드 중...';
+      
+      const statusDiv = document.getElementById('uploadStatus');
+      statusDiv.className = 'warning';
+      statusDiv.textContent = '📤 업로드 중... 잠시만 기다려주세요.';
+      statusDiv.classList.remove('hidden');
       
       try {
-        const response = await fetch('/api/upload-blob?assemblyAIKey=' + encodeURIComponent(apiKeys.assemblyAI), {
+        addLog('Vercel Blob Storage로 업로드 요청 준비', 'info');
+        addLog('API 엔드포인트: /api/upload-blob', 'info');
+        
+        const url = '/api/upload-blob?assemblyAIKey=' + encodeURIComponent(apiKeys.assemblyAI);
+        addLog('요청 URL 생성 완료', 'info');
+        
+        addLog('fetch 요청 시작...', 'info');
+        const startTime = Date.now();
+        
+        const response = await fetch(url, {
           method: 'POST',
-          body: selectedFile
+          body: selectedFile,
+          headers: {
+            'Content-Type': selectedFile.type
+          }
         });
         
-        console.log('📊 응답:', response.status);
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+        addLog('fetch 응답 받음 (소요시간: ' + elapsed + '초)', 'info');
+        addLog('응답 상태: ' + response.status + ' ' + response.statusText, 'info');
         
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || '업로드 실패');
-        }
-        
-        const data = await response.json();
-        console.log('✅ 업로드 성공:', data);
-        
-        transcriptionId = data.transcriptionId;
-        
-        document.getElementById('step2').classList.add('hidden');
-        document.getElementById('step3').classList.remove('hidden');
-        
-        checkTranscriptionStatus();
-        
-      } catch (error) {
-        console.error('❌ 에러:', error);
-        document.getElementById('statusText').textContent = '업로드 실패';
-        document.getElementById('statusDetail').textContent = error.message;
-        alert('업로드 실패: ' + error.message);
-      }
-    }
-
-    async function checkTranscriptionStatus() {
-      const interval = setInterval(async () => {
-        try {
-          const response = await fetch('/api/status?id=' + transcriptionId + '&assemblyAIKey=' + encodeURIComponent(apiKeys.assemblyAI));
-          const data = await response.json();
+          addLog('HTTP 에러 발생: ' + response.status, 'error');
           
-          console.log('⏳ 상태:', data.status);
-          
-          if (data.status === 'completed') {
-            clearInterval(interval);
-            japaneseText = data.text;
-            
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step4').classList.remove('hidden');
-            document.getElementById('japaneseResult').textContent = japaneseText;
-            
-            translateText();
-          } else if (data.status === 'error') {
-            clearInterval(interval);
-            alert('음성 인식 실패');
+          let errorData;
+          try {
+            errorData = await response.json();
+            addLog('에러 데이터: ' + JSON.stringify(errorData), 'error');
+          } catch (e) {
+            const errorText = await response.text();
+            addLog('에러 텍스트: ' + errorText, 'error');
+            errorData = { error: errorText };
           }
-        } catch (error) {
-          clearInterval(interval);
-          alert('상태 확인 실패: ' + error.message);
+          
+          statusDiv.className = 'error';
+          statusDiv.textContent = '❌ 업로드 실패: ' + (errorData.error || '알 수 없는 오류');
+          
+          throw new Error(errorData.error || '업로드 실패 (HTTP ' + response.status + ')');
         }
-      }, 3000);
-    }
-
-    async function translateText() {
-      document.getElementById('translating').classList.remove('hidden');
-      
-      try {
-        const response = await fetch('/api/translate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            text: japaneseText,
-            openAIKey: apiKeys.openAI
-          })
-        });
         
+        addLog('응답 JSON 파싱 중...', 'info');
         const data = await response.json();
-        koreanText = data.translatedText;
+        addLog('응답 데이터: ' + JSON.stringify(data), 'success');
         
-        document.getElementById('translating').classList.add('hidden');
-        document.getElementById('koreanResult').classList.remove('hidden');
-        document.getElementById('koreanResult').textContent = koreanText;
-        document.getElementById('analyzeBtn').classList.remove('hidden');
+        if (!data.success) {
+          addLog('업로드 실패 응답: ' + (data.error || '알 수 없는 오류'), 'error');
+          statusDiv.className = 'error';
+          statusDiv.textContent = '❌ 업로드 실패: ' + (data.error || '알 수 없는 오류');
+          throw new Error(data.error || '업로드 실패');
+        }
+        
+        addLog('업로드 성공!', 'success');
+        addLog('Blob URL: ' + data.blobUrl, 'success');
+        addLog('Transcription ID: ' + data.transcriptionId, 'success');
+        
+        statusDiv.className = 'success';
+        statusDiv.textContent = '✅ 업로드 완료! 음성 인식을 시작합니다...';
+        
+        setTimeout(() => {
+          alert('업로드 성공!\n\n이제 음성 인식 단계로 넘어갑니다.\n(실제 구현은 API 연동 후 완성됩니다)');
+        }, 500);
         
       } catch (error) {
-        alert('번역 실패: ' + error.message);
+        addLog('=== 업로드 실패 ===', 'error');
+        addLog('에러 타입: ' + error.name, 'error');
+        addLog('에러 메시지: ' + error.message, 'error');
+        addLog('에러 스택: ' + error.stack, 'error');
+        
+        statusDiv.className = 'error';
+        statusDiv.textContent = '❌ 업로드 실패: ' + error.message;
+        
+        alert('업로드 실패\n\n' + error.message + '\n\n자세한 내용은 로그를 확인하세요.');
+        
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '다시 시도';
       }
-    }
-
-    async function analyzeStory() {
-      document.getElementById('step4').classList.add('hidden');
-      document.getElementById('step2').classList.remove('hidden');
-      document.getElementById('statusText').textContent = '스토리 분석 중...';
-      document.getElementById('statusDetail').textContent = '';
-      
-      try {
-        const response = await fetch('/api/analyze-story', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            text: koreanText,
-            openAIKey: apiKeys.openAI
-          })
-        });
-        
-        const data = await response.json();
-        storyAnalysis = data.analysis;
-        
-        document.getElementById('step2').classList.add('hidden');
-        document.getElementById('step5').classList.remove('hidden');
-        document.getElementById('analysisResult').textContent = storyAnalysis;
-        
-      } catch (error) {
-        alert('분석 실패: ' + error.message);
-      }
-    }
-
-    async function generateAd() {
-      document.getElementById('step5').classList.add('hidden');
-      document.getElementById('step2').classList.remove('hidden');
-      document.getElementById('statusText').textContent = '광고 문구 생성 중...';
-      
-      try {
-        const criteria = {
-          targetAge: document.getElementById('targetAge').value,
-          tone: document.getElementById('tone').value,
-          platform: document.getElementById('platform').value,
-          length: '짧게 (1-2줄)',
-          keyword: document.getElementById('keyword').value
-        };
-        
-        const response = await fetch('/api/generate-ad', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            story: koreanText,
-            analysis: storyAnalysis,
-            criteria: criteria,
-            openAIKey: apiKeys.openAI
-          })
-        });
-        
-        const data = await response.json();
-        
-        document.getElementById('step2').classList.add('hidden');
-        document.getElementById('step6').classList.remove('hidden');
-        document.getElementById('adResult').textContent = data.adCopy;
-        
-      } catch (error) {
-        alert('광고 생성 실패: ' + error.message);
-      }
-    }
-
-    function downloadResult() {
-      const content = '=== KANTA 분석 결과 ===\n\n일본어:\n' + japaneseText + '\n\n한글:\n' + koreanText + '\n\n분석:\n' + storyAnalysis + '\n\n광고:\n' + document.getElementById('adResult').textContent;
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'kanta-result.txt';
-      a.click();
-      URL.revokeObjectURL(url);
     }
     
-    console.log('🟢 모든 함수 로드 완료');
+    addLog('모든 함수 초기화 완료', 'success');
   </script>
 </body>
 </html>
