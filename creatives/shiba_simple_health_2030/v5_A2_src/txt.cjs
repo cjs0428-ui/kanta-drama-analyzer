@@ -1,0 +1,2 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});
+const jobs=JSON.parse(process.argv[2]);for(const [h,s,out] of jobs){await p.goto('file://'+process.cwd()+'/txt.html?h='+encodeURIComponent(h)+'&s='+encodeURIComponent(s));await p.waitForTimeout(500);await p.screenshot({path:out,omitBackground:true})}await b.close()})()
