@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-06T06:05:19.116849Z",
+    "display_name": "GPT Image 2.5",
+    "id": "fa6d1236-e951-42a7-9676-03a7c9836ff4",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_060519_fa6d1236-e951-42a7-9676-03a7c9836ff4_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "5a4d9c98-5d68-4bd2-93e4-5335f65553f3",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/5a4d9c98-5d68-4bd2-93e4-5335f65553f3.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "No text, no letters, no numbers, no logos, no money, no coins, no thumbs-up gesture. Square 1:1 advertising key visual, bold dynamic camera angle, high-end commercial 3D render quality, vivid lighting, shallow depth of field. Extreme wide-angle close-up from slightly below: a surprised then relieved young shiba inu dog (same realistic fluffy shiba style as the reference) wearing a white shirt and tie holds a small white pill pouch up to the camera, while a giant red rubber stamp slams down beside it with motion blur and impact shock lines, dust burst. Clean bright minimal pastel office background. The upper 35% of the frame is a clean bright empty area for a headline.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_060519_fa6d1236-e951-42a7-9676-03a7c9836ff4.png",
+    "status": "completed"
+  }
+]

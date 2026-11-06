@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-06T06:05:17.597267Z",
+    "display_name": "GPT Image 2.5",
+    "id": "a0e839c0-f2b8-447c-91dd-c0b97aeb907f",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_060517_a0e839c0-f2b8-447c-91dd-c0b97aeb907f_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "2af4d62a-ab5c-4386-affb-59dc1fff528d",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/2af4d62a-ab5c-4386-affb-59dc1fff528d.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "No text, no letters, no numbers, no logos, no money, no coins, no thumbs-up gesture. Square 1:1 advertising key visual, bold dynamic camera angle, high-end commercial 3D render quality, vivid lighting, shallow depth of field. Over-the-shoulder dynamic tilted angle: in the foreground right, a young adult shiba inu dog (same realistic fluffy shiba style as the reference) wearing a casual hoodie holds a smartphone, its screen glowing with an abstract checklist and shield icons (no text). In the background on a sofa, an elderly shiba couple with grey muzzles, one wearing round glasses and a cardigan, smile warmly and lean in to look. Bright warm modern Korean apartment living room, afternoon sunlight. Upper 35% of the frame is a clean soft out-of-focus wall area for a headline.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_060517_a0e839c0-f2b8-447c-91dd-c0b97aeb907f.png",
+    "status": "completed"
+  }
+]

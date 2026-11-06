@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-06T06:05:18.264308Z",
+    "display_name": "GPT Image 2.5",
+    "id": "6532b4d7-0501-4dc7-b658-177b21dae418",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_060518_6532b4d7-0501-4dc7-b658-177b21dae418_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "57421c39-5c76-4a37-97ed-2f27f4a8a5a8",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/57421c39-5c76-4a37-97ed-2f27f4a8a5a8.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "No text, no letters, no numbers, no logos, no money, no coins, no thumbs-up gesture. Square 1:1 advertising key visual, bold dynamic camera angle, high-end commercial 3D render quality, vivid lighting, shallow depth of field. Dynamic dutch-angle shot: the 3D cartoon mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks and simple smiling eyes, red sweater with a white letter M) as a cheerful teacher stands in front of a green chalkboard, pointing confidently with a wooden pointer stick at two large blank white paper cards pinned on the chalkboard, each card marked with a huge bold red X (cards have no text). Chalk dust particles in the air, dramatic rim light. Meri in the lower-right 55% of the frame; the upper 35% is clean chalkboard area for a headline.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_060518_6532b4d7-0501-4dc7-b658-177b21dae418.png",
+    "status": "completed"
+  }
+]
