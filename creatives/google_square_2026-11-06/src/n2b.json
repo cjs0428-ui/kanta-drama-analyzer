@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-11-06T06:17:36.68645Z",
+    "display_name": "GPT Image 2.5",
+    "id": "58d3ca89-373b-4523-8c37-82eb666031e1",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_061736_58d3ca89-373b-4523-8c37-82eb666031e1_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [],
+      "model": "sunburst",
+      "prompt": "No text, no letters, no numbers, no logos, no money, no coins, no banknotes, no people, no thumbs-up gesture. Square 1:1 advertising key visual, bold dynamic camera angle, high-end commercial 3D render, vivid cinematic lighting, motion and energy. Explosive dynamic shot from a low dutch angle: a giant glossy white-and-red medicine capsule smashes through a thick grey stone wall, the wall shattering into flying chunks and dust, small white pills scattering through the air with motion blur, a glowing translucent blue protective shield emerging behind the capsule with light rays. Clean bright sky-blue and white background. The upper 35% of the frame is clean bright empty space for a headline.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_061736_58d3ca89-373b-4523-8c37-82eb666031e1.png",
+    "status": "completed"
+  }
+]
