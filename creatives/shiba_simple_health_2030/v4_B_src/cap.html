@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="fonts/package/800.css"><style>
+html,body{margin:0;background:transparent}
+#c{position:relative;width:1080px;height:1920px}
+.key{position:absolute;left:0;right:0;text-align:center;font-family:'Nanum Myeongjo';font-weight:900;line-height:1.26;letter-spacing:-2px}
+.key span{background:linear-gradient(180deg,#FFFBD0,#FFE14A 30%,#FF9A00 60%,#C40000);-webkit-background-clip:text;color:transparent;filter: drop-shadow(0 0 3px #3b0500) drop-shadow(0 0 3px #3b0500) drop-shadow(0 0 3px #3b0500) drop-shadow(0 0 3px #3b0500) drop-shadow(0 0 3px #3b0500) drop-shadow(0 0 3px #3b0500) drop-shadow(0 0 16px rgba(255,110,0,.7))}
+</style></head><body><div id="c"><div class="key" id="k"><span id="t"></span></div></div>
+<script>
+const q=new URLSearchParams(location.search);document.getElementById('t').innerHTML=q.get('t');
+const k=document.getElementById('k');k.style.fontSize=q.get('s')+'px';k.style.top=q.get('y')+'px';
+</script></body></html>
