@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-06T06:23:36.176581Z",
+    "display_name": "GPT Image 2.5",
+    "id": "d9254867-4452-4263-aecd-ae3fb68f3edc",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_062336_d9254867-4452-4263-aecd-ae3fb68f3edc_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "e97edbee-d0ee-4a40-ab2f-54619932cb84",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/e97edbee-d0ee-4a40-ab2f-54619932cb84.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "No logos, no money, no coins, no banknotes, no people, no thumbs-up gesture. Square 1:1 advertising key visual, bold dynamic camera angle, high-end commercial 3D render, vivid cinematic lighting, motion and energy. Dramatic low-angle shot from below: the 3D cartoon mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks and simple smiling eyes, red sweater with a white letter M) rides joyfully on a big paper airplane that is clearly folded from a long white Korean hospital medical receipt paper: the wings show printed receipt layout with a bold Korean header reading exactly '진료비 영수증', dashed separator lines and rows of small grey placeholder lines (no numbers, no amounts). The airplane soars steeply upward toward the upper right with speed lines, wind streaks and small clouds, sunlight burst. Soft warm cream-to-sky gradient background. Meri and the airplane in the right and lower 60% of the frame; the upper-left 40% is clean background for a headline. Only the Korean text '진료비 영수증', no other readable text.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261106_062336_d9254867-4452-4263-aecd-ae3fb68f3edc.png",
+    "status": "completed"
+  }
+]
