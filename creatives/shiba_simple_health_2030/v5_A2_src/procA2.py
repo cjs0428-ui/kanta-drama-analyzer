@@ -50,7 +50,7 @@ def diffrep(a,ref,pat,rect,tol=30):
     y0,y1,x0,x1=rect;cur=a[y0:y1,x0:x1];d=np.abs(cur-ref[y0:y1,x0:x1]).sum(2)
     m=(d<tol).astype(np.uint8);m=cv2.erode(m,np.ones((3,3),np.uint8));mf=cv2.GaussianBlur(m.astype(float),(0,0),1)[...,None]
     a[y0:y1,x0:x1]=cur*(1-mf)+pat[y0:y1,x0:x1]*mf;return a
-SUBS=[(10,38,'A2_L0a.png'),(39,98,'A2_L0b.png'),(99,176,'A2_L1a.png'),(208,250,'A2_L2a.png'),(251,303,'A2_L2b.png'),(369,390,'A2_L4a.png'),(391,396,'A2_L4b.png')]
+SUBS=[(10,38,'A2_L0a.png'),(39,98,'A2_L0b.png'),(99,173,'A2_L1a.png'),(208,256,'A2_L2a.png'),(257,303,'A2_L2b.png'),(369,390,'A2_L4a.png'),(391,396,'A2_L4b.png')]
 SUBP={f:rgba(f) for _,_,f in SUBS}
 LOG=open('cardlog.txt','w')
 import sys
