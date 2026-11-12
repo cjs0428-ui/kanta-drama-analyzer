@@ -1,0 +1,29 @@
+[
+  {
+    "created_at": "2026-11-12T08:15:50.686983Z",
+    "display_name": "Nano Banana Pro",
+    "id": "83b49c55-30b9-470a-ba4b-c63d74ff3c4b",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081550_83b49c55-30b9-470a-ba4b-c63d74ff3c4b_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "1:1",
+      "batch_size": 1,
+      "height": 2048,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "380b2862-e3a2-42ca-a0a9-e75e0a9e3cae",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/380b2862-e3a2-42ca-a0a9-e75e0a9e3cae.png"
+        }
+      ],
+      "prompt": "Bold, simple, instantly understandable mobile app ad visual, square 1:1. Solid saturated flat background with subtle radial glow, nothing else in the scene. Hero group centered between 32% and 84% of the height. Upper 30% of the frame and bottom 14% completely empty. No text, no letters, no numbers, no logos, no money, no coins. Premium glossy 3D render, concrete everyday objects (not abstract). Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: side by side comparison: on the left a group of three simple faceless white figure tokens share one big sturdy white umbrella; on the right Meri holds a tiny red umbrella that barely covers its head, looking over at the group; a big red round notification badge with a question mark symbol above Meri. Light stylized rain. Background: vivid warm orange.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081550_83b49c55-30b9-470a-ba4b-c63d74ff3c4b.png",
+    "status": "completed"
+  }
+]

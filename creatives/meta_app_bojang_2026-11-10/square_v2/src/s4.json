@@ -1,0 +1,29 @@
+[
+  {
+    "created_at": "2026-11-12T08:15:51.255169Z",
+    "display_name": "Nano Banana Pro",
+    "id": "f223e1f8-0a95-4d74-b9d7-372699d8b24c",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081551_f223e1f8-0a95-4d74-b9d7-372699d8b24c_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "1:1",
+      "batch_size": 1,
+      "height": 2048,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "c337ae59-f50a-4918-a451-7e027b903b56",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/c337ae59-f50a-4918-a451-7e027b903b56.png"
+        }
+      ],
+      "prompt": "Bold, simple, instantly understandable mobile app ad visual, square 1:1. Solid saturated flat background with subtle radial glow, nothing else in the scene. Hero group centered between 32% and 84% of the height. Upper 30% of the frame and bottom 14% completely empty. No text, no letters, no numbers, no logos, no money, no coins. Premium glossy 3D render, concrete everyday objects (not abstract). Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: a large glossy smartphone standing upright showing a clean white app screen with a simple bar chart of two bars: a tall orange bar with a small person-group icon on top, and a short red bar with a single person icon on top; a big red notification badge with a question mark symbol near the short bar. Meri stands beside the phone looking up at the tall bar, puzzled. Background: vivid warm orange.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081551_f223e1f8-0a95-4d74-b9d7-372699d8b24c.png",
+    "status": "completed"
+  }
+]

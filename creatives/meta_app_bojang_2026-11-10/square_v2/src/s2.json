@@ -1,0 +1,29 @@
+[
+  {
+    "created_at": "2026-11-12T08:15:50.284164Z",
+    "display_name": "Nano Banana Pro",
+    "id": "1e8b7082-96ac-4d0a-8b55-d054e779566c",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081550_1e8b7082-96ac-4d0a-8b55-d054e779566c_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "1:1",
+      "batch_size": 1,
+      "height": 2048,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "6f0f5128-0803-4931-8e86-31f140d5c8c6",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/6f0f5128-0803-4931-8e86-31f140d5c8c6.png"
+        }
+      ],
+      "prompt": "Bold, simple, instantly understandable mobile app ad visual, square 1:1. Solid saturated flat background with subtle radial glow, nothing else in the scene. Hero group centered between 32% and 84% of the height. Upper 30% of the frame and bottom 14% completely empty. No text, no letters, no numbers, no logos, no money, no coins. Premium glossy 3D render, concrete everyday objects (not abstract). Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: a large glossy smartphone standing upright showing a clean white app list screen with four rows; each row has a simple icon on the left (hospital cross, pink cancer ribbon, red heart, bandage) and a green check circle on the right, except one row whose right side is an empty red dashed circle glowing; a big red notification badge with an exclamation mark symbol on the phone's top right corner. Meri stands beside the phone pointing at the empty row. Background: vivid cobalt blue.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081550_1e8b7082-96ac-4d0a-8b55-d054e779566c.png",
+    "status": "completed"
+  }
+]

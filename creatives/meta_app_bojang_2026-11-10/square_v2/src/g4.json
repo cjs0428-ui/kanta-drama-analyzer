@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-12T08:17:11.910694Z",
+    "display_name": "GPT Image 2.5",
+    "id": "a2b95c3f-6f0b-458f-8d35-ecae4bed0c5b",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081711_a2b95c3f-6f0b-458f-8d35-ecae4bed0c5b_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "027b3206-16d4-4ff4-943d-9a072954fd16",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/027b3206-16d4-4ff4-943d-9a072954fd16.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Bold, simple, instantly understandable mobile app ad visual, square 1:1. Solid saturated flat background with subtle radial glow, nothing else in the scene. Hero group centered between 32% and 84% of the height. Upper 30% of the frame and bottom 14% completely empty. No text, no letters, no numbers, no logos, no money, no coins. Premium glossy 3D render, concrete everyday objects (not abstract). Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: a large glossy smartphone standing upright showing a clean white app screen with a simple bar chart of two bars: a tall orange bar with a small person-group icon on top, and a short red bar with a single person icon on top; a big red notification badge with a question mark symbol near the short bar. Meri stands beside the phone looking up at the tall bar, puzzled. Background: vivid warm orange.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081711_a2b95c3f-6f0b-458f-8d35-ecae4bed0c5b.png",
+    "status": "completed"
+  }
+]

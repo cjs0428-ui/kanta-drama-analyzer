@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-12T08:17:08.697211Z",
+    "display_name": "GPT Image 2.5",
+    "id": "aa22ee97-0b12-469f-98ff-3380fb8ab0a8",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081708_aa22ee97-0b12-469f-98ff-3380fb8ab0a8_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "e77a9a78-a7e0-4c3a-9141-cc96df2d9729",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/e77a9a78-a7e0-4c3a-9141-cc96df2d9729.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Bold, simple, instantly understandable mobile app ad visual, square 1:1. Solid saturated flat background with subtle radial glow, nothing else in the scene. Hero group centered between 32% and 84% of the height. Upper 30% of the frame and bottom 14% completely empty. No text, no letters, no numbers, no logos, no money, no coins. Premium glossy 3D render, concrete everyday objects (not abstract). Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: a big glossy red-and-white umbrella opened over Meri; the umbrella has an obvious torn hole in one panel and raindrops fall through the hole onto Meri, who looks up surprised holding the handle. A big red round notification badge with an exclamation mark symbol near the hole. Background: vivid cobalt blue.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_081708_aa22ee97-0b12-469f-98ff-3380fb8ab0a8.png",
+    "status": "completed"
+  }
+]
