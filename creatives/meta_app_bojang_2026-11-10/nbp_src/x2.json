@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-11-12T06:30:23.774889Z",
+    "display_name": "Nano Banana Pro",
+    "id": "60055f98-3caf-48ca-9f4e-26d91c8ab200",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_063023_60055f98-3caf-48ca-9f4e-26d91c8ab200_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Bold, simple, instantly readable mobile app ad visual, 4:5 vertical. ONE single huge glossy 3D icon object in the exact center of the frame (occupying the middle 30%-80% height), with a big bright red circular notification badge attached to its top-right corner showing only an exclamation mark symbol. Solid saturated flat background color with a very subtle radial glow, nothing else in the scene. Upper 28% of frame completely empty, bottom 15% completely empty. No text, no letters, no numbers, no logos, no people, no hands, no money. Clean high-end 3D icon style like a premium app promo. Icon: a glossy white 3D shield with a jagged empty hole in the middle glowing red from inside. Background: vivid cobalt blue.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_063023_60055f98-3caf-48ca-9f4e-26d91c8ab200.png",
+    "status": "completed"
+  }
+]

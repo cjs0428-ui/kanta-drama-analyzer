@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-11-12T06:30:24.11895Z",
+    "display_name": "Nano Banana Pro",
+    "id": "2e64a7ea-4f60-47f1-aff7-e1b5e0b9966c",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_063024_2e64a7ea-4f60-47f1-aff7-e1b5e0b9966c_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Bold, simple, instantly readable mobile app ad visual, 4:5 vertical. ONE single huge glossy 3D icon object in the exact center of the frame (occupying the middle 30%-80% height), with a big bright red circular notification badge attached to its top-right corner showing only an exclamation mark symbol. Solid saturated flat background color with a very subtle radial glow, nothing else in the scene. Upper 28% of frame completely empty, bottom 15% completely empty. No text, no letters, no numbers, no logos, no people, no hands, no money. Clean high-end 3D icon style like a premium app promo. Icon: a glossy 3D bar chart with two thick bars standing side by side: a tall white bar and a short red bar; the red notification badge sits on the short red bar and shows a question mark symbol instead of an exclamation mark. Background: vivid warm orange.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_063024_2e64a7ea-4f60-47f1-aff7-e1b5e0b9966c.png",
+    "status": "completed"
+  }
+]
