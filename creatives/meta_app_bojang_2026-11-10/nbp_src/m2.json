@@ -1,0 +1,29 @@
+[
+  {
+    "created_at": "2026-11-12T06:48:18.895666Z",
+    "display_name": "Nano Banana Pro",
+    "id": "5f7edf71-5838-490c-9c2c-c1f104a618ee",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_064818_5f7edf71-5838-490c-9c2c-c1f104a618ee_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "c96dba40-4e77-41e4-857d-73b6c23deaa3",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/c96dba40-4e77-41e4-857d-73b6c23deaa3.png"
+        }
+      ],
+      "prompt": "Bold, simple, instantly readable mobile app ad visual, 4:5 vertical. Solid saturated flat background with subtle radial glow, nothing else in the scene. The hero group sits in the center (35%-82% height). Upper 30% of frame completely empty, bottom 15% completely empty. No text, no letters, no numbers, no logos, no people except the mascot, no money. Clean premium 3D render. Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M), drawn SMALL (about 25% of the hero group height) as a supporting accent, not the main subject. Hero object: a neat 3x3 stack of glossy white 3D cube blocks forming a square wall; one cube in the middle is missing and the hole glows red, with a big red notification badge with exclamation mark symbol next to the hole. Meri stands at the bottom right pointing up at the hole, surprised face. Background: vivid cobalt blue.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_064818_5f7edf71-5838-490c-9c2c-c1f104a618ee.png",
+    "status": "completed"
+  }
+]

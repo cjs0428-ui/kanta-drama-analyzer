@@ -1,0 +1,29 @@
+[
+  {
+    "created_at": "2026-11-12T06:49:29.278956Z",
+    "display_name": "Nano Banana Pro",
+    "id": "e576fa67-257e-471d-8bd0-740178207d99",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_064929_e576fa67-257e-471d-8bd0-740178207d99_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "b0bfaf42-ebeb-4b6f-b6e4-88dc5109b63e",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/b0bfaf42-ebeb-4b6f-b6e4-88dc5109b63e.png"
+        }
+      ],
+      "prompt": "Bold, simple, instantly readable mobile app ad visual, 4:5 vertical. Solid saturated flat background with subtle radial glow, nothing else in the scene. The hero group sits in the center (35%-82% height). Upper 30% of frame completely empty, bottom 15% completely empty. No text, no letters, no numbers, no logos, no coins, no round discs, no money. Clean premium 3D render. Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M), drawn SMALL as a supporting accent. Hero object: a glossy 3D balance scale; the left pan is weighed down and holds a pile of several glossy white shield-shaped badges (shield silhouettes, clearly NOT coins); the right pan is raised and holds only one small red shield badge; a big red notification badge with a question mark symbol floats above the right pan. Meri sits on the raised right pan looking at the other side, puzzled face. Background: vivid warm orange.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_064929_e576fa67-257e-471d-8bd0-740178207d99.png",
+    "status": "completed"
+  }
+]
