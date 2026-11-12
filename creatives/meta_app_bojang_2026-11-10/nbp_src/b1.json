@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-11-12T06:10:37.671046Z",
+    "display_name": "Nano Banana Pro",
+    "id": "47ac9791-b959-45cb-b0fa-fa6fcc264041",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061037_47ac9791-b959-45cb-b0fa-fa6fcc264041_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Premium Korean mobile-app performance ad key visual for Meta feed, 4:5 vertical. High-end glossy 3D render, studio lighting, soft shadows, crisp details, eye-catching. No text, no letters, no numbers, no logos, no people, no hands, no money. Leave the upper 35% of the frame as clean empty background for a big headline and the bottom 15% clean for a CTA button. Concept: insurance coverage gap alert. A glossy smartphone floats tilted at a dynamic angle in the lower center; from its screen a large frosted-glass push-notification card pops out toward the viewer with a bright red notification badge and a bell icon. Next to it a 3D clipboard checklist with three blue checked boxes and one empty dashed box glowing red. Soft pastel sky-blue gradient background with subtle light rays.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061037_47ac9791-b959-45cb-b0fa-fa6fcc264041.png",
+    "status": "completed"
+  }
+]

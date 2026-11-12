@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-11-12T06:12:25.826999Z",
+    "display_name": "Nano Banana Pro",
+    "id": "459b9fd8-7206-46a7-8e44-bbc443fc2b12",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061225_459b9fd8-7206-46a7-8e44-bbc443fc2b12_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Premium Korean mobile-app performance ad key visual for Meta feed, 4:5 vertical. High-end glossy 3D render, studio lighting, soft shadows, crisp details. No text, no letters, no numbers, no logos, no people, no hands, no money. IMPORTANT composition: the main object is placed in the LOWER HALF of the frame (from 45% to 88% height), the entire upper 45% is completely empty smooth background, and the bottom 12% is clean. Concept: me versus peers. Two 3D bar columns rise from a glossy smartphone lying on the floor: a tall glowing orange column with small simple 3D person figures on top representing peers, and a short translucent red column with a single highlighted person figure and a red question badge. Warm cream seamless background with soft orange glow, slightly low camera angle.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061225_459b9fd8-7206-46a7-8e44-bbc443fc2b12.png",
+    "status": "completed"
+  }
+]

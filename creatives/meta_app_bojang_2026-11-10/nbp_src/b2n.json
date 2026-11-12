@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-11-12T06:12:25.791808Z",
+    "display_name": "Nano Banana Pro",
+    "id": "4517f847-cbf4-4679-9349-9b20a7a931a1",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061225_4517f847-cbf4-4679-9349-9b20a7a931a1_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Premium Korean mobile-app performance ad key visual for Meta feed, 4:5 vertical. High-end glossy 3D render, studio lighting, soft shadows, crisp details. No text, no letters, no numbers, no logos, no people, no hands, no money. IMPORTANT composition: the main object is placed in the LOWER HALF of the frame (from 45% to 88% height), the entire upper 45% is completely empty smooth background, and the bottom 12% is clean. Concept: a missing piece in your protection. A glossy 3D shield made of blue and silver puzzle pieces, one puzzle piece missing and that gap glowing red with a small red alert badge; the missing piece hovers beside it. Clean pastel blue-and-white seamless background, cinematic rim light.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061225_4517f847-cbf4-4679-9349-9b20a7a931a1.png",
+    "status": "completed"
+  }
+]

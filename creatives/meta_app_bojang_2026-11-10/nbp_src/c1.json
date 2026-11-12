@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-11-12T06:10:40.038023Z",
+    "display_name": "Nano Banana Pro",
+    "id": "e0c592eb-b82c-4c7d-a758-7ee5bcf3cef9",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061040_e0c592eb-b82c-4c7d-a758-7ee5bcf3cef9_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "4:5",
+      "batch_size": 1,
+      "height": 2304,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Premium Korean mobile-app performance ad key visual for Meta feed, 4:5 vertical. High-end glossy 3D render, studio lighting, soft shadows, crisp details, eye-catching. No text, no letters, no numbers, no logos, no people, no hands, no money. Leave the upper 35% of the frame as clean empty background for a big headline and the bottom 15% clean for a CTA button. Concept: peer comparison report arriving as a notification. A glossy smartphone lies tilted in the lower center; a 3D envelope bursts open from its screen and a report card with a bar chart flies out: one tall orange bar and one short empty dashed red outline bar with a question mark shape (no letters). Confetti-like light particles. Warm ivory and soft orange pastel background.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 1856
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_061040_e0c592eb-b82c-4c7d-a758-7ee5bcf3cef9.png",
+    "status": "completed"
+  }
+]
