@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-12T09:38:21.278526Z",
+    "display_name": "GPT Image 2.5",
+    "id": "1a3ecd0d-d874-4ce0-8115-51bc12402d5f",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_093821_1a3ecd0d-d874-4ce0-8115-51bc12402d5f_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "c9cf2a26-9ac4-407c-be6f-54eb19a7ca3d",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/c9cf2a26-9ac4-407c-be6f-54eb19a7ca3d.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Instantly understandable mobile app ad visual, square 1:1, premium glossy 3D render. COMPOSITION: the hero group is placed in the LOWER-CENTER, occupying only from 38% to 86% of the height and the middle 70% of the width; the upper 34% must stay free of objects (only background atmosphere) for a headline; bottom 12% free. No text, no letters, no numbers, no logos, no money, no coins. Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: a glossy red-and-white umbrella with an obvious torn hole; raindrops fall through the hole onto Meri, who looks up surprised holding the handle; a red round notification badge with an exclamation mark symbol near the hole. BACKGROUND: rich atmospheric twilight gradient from deep navy at the top to electric blue and soft violet, gentle diagonal rain streaks, warm blurred city bokeh lights near the bottom and a wet glossy floor reflection.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_093821_1a3ecd0d-d874-4ce0-8115-51bc12402d5f.png",
+    "status": "completed"
+  }
+]

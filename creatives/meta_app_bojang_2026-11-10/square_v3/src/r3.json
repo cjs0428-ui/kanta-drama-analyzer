@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-12T09:38:26.061481Z",
+    "display_name": "GPT Image 2.5",
+    "id": "2b436633-c194-43ad-be73-17bbb7da8839",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_093826_2b436633-c194-43ad-be73-17bbb7da8839_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "cf1c7b1a-0205-4fda-b1d6-f18441d590eb",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/cf1c7b1a-0205-4fda-b1d6-f18441d590eb.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Instantly understandable mobile app ad visual, square 1:1, premium glossy 3D render. COMPOSITION: the hero group is placed in the LOWER-CENTER, occupying only from 38% to 86% of the height and the middle 70% of the width; the upper 34% must stay free of objects (only background atmosphere) for a headline; bottom 12% free. No text, no letters, no numbers, no logos, no money, no coins. Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: on the left three simple faceless white figure tokens share one big sturdy white umbrella; on the right Meri holds a tiny red umbrella barely covering its head, looking at the group; a red notification badge with a question mark symbol above Meri. BACKGROUND: warm sunset atmosphere gradient from coral red at the top to peach and soft pink, glowing backlit rain streaks catching the sunlight, soft golden bokeh, wet glossy floor with warm reflections.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_093826_2b436633-c194-43ad-be73-17bbb7da8839.png",
+    "status": "completed"
+  }
+]

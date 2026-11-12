@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-12T09:38:24.480839Z",
+    "display_name": "GPT Image 2.5",
+    "id": "98992cc1-09bf-43b9-9a45-36664e6bcaa3",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_093824_98992cc1-09bf-43b9-9a45-36664e6bcaa3_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "f69bb595-8684-4bc4-8409-73b40ba5e8f8",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/f69bb595-8684-4bc4-8409-73b40ba5e8f8.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Instantly understandable mobile app ad visual, square 1:1, premium glossy 3D render. COMPOSITION: the hero group is placed in the LOWER-CENTER, occupying only from 38% to 86% of the height and the middle 70% of the width; the upper 34% must stay free of objects (only background atmosphere) for a headline; bottom 12% free. No text, no letters, no numbers, no logos, no money, no coins. Include the cute 3D mascot from the reference image (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M). Scene: a large glossy smartphone standing upright showing a clean white app screen with a two-bar chart: a tall orange bar with a small people-group icon on top and a short red bar with a single person icon; a red notification badge with a question mark symbol near the short bar. Meri stands beside the phone looking up, puzzled. BACKGROUND: vibrant gradient from warm orange to hot coral pink with diagonal soft light beams, floating glossy translucent spheres and small 3D chart shapes at various depths, soft bokeh.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261112_093824_98992cc1-09bf-43b9-9a45-36664e6bcaa3.png",
+    "status": "completed"
+  }
+]
