@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-13T05:26:23.691322Z",
+    "display_name": "GPT Image 2.5",
+    "id": "0ad40993-cd16-41b1-baef-5dc7f9205da1",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052623_0ad40993-cd16-41b1-baef-5dc7f9205da1_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "4a39855a-8c3b-4644-9874-70c0bd5e13a0",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/4a39855a-8c3b-4644-9874-70c0bd5e13a0.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Korean webtoon / instatoon 2D illustration style for a mobile app ad, square 1:1: clean bold dark outlines, flat cel shading with soft gradients, bright saturated colors, expressive cute cartoon. NOT 3D. STRICT COMPOSITION: all characters and objects are in the LOWER part: their top edge below 36% of the image height, bottom around 86%. Upper 34% only background. No money, no coins, no logos. Draw the mascot from the reference image as a 2D webtoon character (Meri: big round fluffy orange petal-shaped hair, round peach face with rosy cheeks, red sweater with white letter M). Scene: a large cartoon smartphone, screen facing viewer, showing a realistic Korean insurance app screen (clean UI) with these exact Korean texts only: top title '내 보장 현황'; four list rows with labels '실손의료비', '암 진단비', '뇌·심장 진단비', '수술비'; rows 1, 2 and 4 have a small green pill badge '보장중'; row 3 has a red pill badge '확인 필요' and a red dashed outline; at the bottom of the screen a red rounded button '보장분석 결과 보기'. A red notification badge with an exclamation mark symbol on the phone's top right corner. Meri stands beside the phone pointing at the red row with a wink and sparkles. Background: 2D illustrated soft sky-blue to lilac gradient with fluffy clouds and sparkles.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052623_0ad40993-cd16-41b1-baef-5dc7f9205da1.png",
+    "status": "completed"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-13T05:26:23.255922Z",
+    "display_name": "GPT Image 2.5",
+    "id": "b892d0af-81aa-48f5-85ec-c294e8cf026d",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052623_b892d0af-81aa-48f5-85ec-c294e8cf026d_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "184adc56-a506-41d8-8b94-0b8a7c29f8ce",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/184adc56-a506-41d8-8b94-0b8a7c29f8ce.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Korean webtoon / instatoon 2D illustration style for a mobile app ad, square 1:1: clean bold dark outlines, flat cel shading with soft gradients, bright saturated colors, expressive cute cartoon. NOT 3D. STRICT COMPOSITION: all characters and objects are in the LOWER part: their top edge below 36% of the image height, bottom around 86%. Upper 34% only background. No money, no coins, no logos. Draw the mascot from the reference image as a 2D webtoon character (Meri: big round fluffy orange petal-shaped hair, round peach face with rosy cheeks, red sweater with white letter M). No text or letters anywhere. Scene: a big cartoon balance scale. On the left pan, which is pushed DOWN, stand three cheerful plain round-headed white cartoon friends holding big blue shields; on the right pan, which is lifted UP high, Meri stands alone holding one tiny red shield, looking down at the heavier side with a worried pouty face and sweat drop; a red notification badge with a question mark symbol above Meri. Background: 2D illustrated warm coral to peach gradient with soft light rays, small sparkles and simple doodle shapes, no rain.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052623_b892d0af-81aa-48f5-85ec-c294e8cf026d.png",
+    "status": "completed"
+  }
+]

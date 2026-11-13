@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-13T05:27:25.861504Z",
+    "display_name": "GPT Image 2.5",
+    "id": "ea1647b1-9ec1-4c90-af89-599287762a46",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052725_ea1647b1-9ec1-4c90-af89-599287762a46_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "730d755d-ec1f-48e0-b419-dec34ad09b48",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/730d755d-ec1f-48e0-b419-dec34ad09b48.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Korean webtoon / instatoon 2D illustration style for a mobile app ad, square 1:1: clean bold dark outlines, flat cel shading with soft gradients, bright saturated colors, expressive cute cartoon. NOT 3D. No text or letters anywhere. No money, no coins, no logos. STRICT COMPOSITION: the whole balance scale with all characters is SMALL and sits in the LOWER part of the frame: the highest point of any character or badge must be below 42% of the image height; the scale base around 86%. The upper 40% shows only the background. Draw the mascot from the reference image as a 2D webtoon character (Meri: big round fluffy orange petal-shaped hair, round peach face with rosy cheeks, red sweater with white letter M). Scene: a wide cartoon balance scale. Left pan pushed DOWN with three cheerful plain round-headed white cartoon friends holding big blue shields; right pan lifted UP with Meri alone holding one tiny red shield, looking at the heavier side with a worried pouty face and sweat drop; a small red notification badge with a question mark symbol just above Meri's head. Background: 2D illustrated warm coral to peach gradient with soft light rays and small sparkles, no rain.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052725_ea1647b1-9ec1-4c90-af89-599287762a46.png",
+    "status": "completed"
+  }
+]

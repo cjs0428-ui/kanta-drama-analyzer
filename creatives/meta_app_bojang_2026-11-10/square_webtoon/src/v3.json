@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-13T05:26:23.48031Z",
+    "display_name": "GPT Image 2.5",
+    "id": "8ed73289-cbab-45d3-aeb2-b243598833ed",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052623_8ed73289-cbab-45d3-aeb2-b243598833ed_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "aa04a3b2-4814-449d-b266-ecf1a88bb17d",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/aa04a3b2-4814-449d-b266-ecf1a88bb17d.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Korean webtoon / instatoon 2D illustration style for a mobile app ad, square 1:1: clean bold dark outlines, flat cel shading with soft gradients, bright saturated colors, expressive cute cartoon. NOT 3D. STRICT COMPOSITION: all characters and objects are in the LOWER part: their top edge below 36% of the image height, bottom around 86%. Upper 34% only background. No money, no coins, no logos. Draw the mascot from the reference image as a 2D webtoon character (Meri: big round fluffy orange petal-shaped hair, round peach face with rosy cheeks, red sweater with white letter M). Scene: a large cartoon smartphone, screen facing viewer, showing a realistic Korean insurance app comparison screen (clean UI) with these exact Korean texts only: top title '또래 보장 비교'; a small legend '나' (red dot) and '또래 평균' (orange dot); a grouped bar chart with four categories labeled '암', '뇌', '심장', '수술' where every red bar (나) is shorter than the orange bar (또래 평균); at the bottom a red rounded button '부족한 보장 확인'. A red notification badge with a question mark symbol near the chart. Meri stands beside the phone looking at it puzzled, hand on chin. Background: 2D illustrated warm orange to coral pink gradient with soft light beams and small sparkles.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_052623_8ed73289-cbab-45d3-aeb2-b243598833ed.png",
+    "status": "completed"
+  }
+]
