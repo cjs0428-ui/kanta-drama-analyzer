@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-13T06:08:13.550163Z",
+    "display_name": "GPT Image 2.5",
+    "id": "3a7e4eb5-1183-4124-986a-146b8fd17e97",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_060813_3a7e4eb5-1183-4124-986a-146b8fd17e97_min.webp",
+    "params": {
+      "aspect_ratio": "9:8",
+      "height": 1920,
+      "medias": [
+        {
+          "data": {
+            "id": "ea065ef7-e21d-4864-9efa-7c0682403a5a",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/ea065ef7-e21d-4864-9efa-7c0682403a5a.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Black-and-white Korean webtoon comic panel, simple clean manga line art, pure black ink lines on white, minimal grey screentone, no color at all, slightly high-angle office or cafe scene like a viral Instagram comic. Draw the mascot from the reference image in black-and-white line art as the main character (Meri: big round fluffy petal-shaped hair like a flower, round face, sweater with letter M on the chest). Other characters are simple plain egg-shaped round-headed faceless coworkers drawn in the same minimal style. Speech bubbles are clean white ovals with black outlines and the Korean text inside must be exactly as specified, crisp and correct. No other text. Leave the top-left corner and top-right corner of the panel empty (for a number and a label box to be added later). Scene: a cafe table. Two coworkers on the left chat happily, one says in a speech bubble: '난 암 보장 꽉 채웠어~'. Meri sits on the right holding a coffee cup, frozen with a big sweat drop, with a small speech bubble: '…나는?'.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2160
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_060813_3a7e4eb5-1183-4124-986a-146b8fd17e97.png",
+    "status": "completed"
+  }
+]
