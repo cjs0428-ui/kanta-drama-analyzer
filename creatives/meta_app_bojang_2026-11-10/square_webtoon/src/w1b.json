@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-13T05:17:46.108577Z",
+    "display_name": "GPT Image 2.5",
+    "id": "effc6905-9e74-48b2-84e2-bd1649532fb7",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_051746_effc6905-9e74-48b2-84e2-bd1649532fb7_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "9b38f63e-fc08-4270-a213-f3df0170911b",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/9b38f63e-fc08-4270-a213-f3df0170911b.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Korean webtoon / instatoon 2D illustration style for a mobile app ad, square 1:1: clean bold dark outlines, flat cel shading with soft gradients, bright saturated colors, expressive cute cartoon. NOT 3D. STRICT COMPOSITION: Meri and the umbrella are SMALL and placed in the LOWER part of the frame: the top of the umbrella must be below 42% of the image height, Meri's feet around 86%. The whole upper 40% shows only sky and rain. No text, no letters, no numbers, no logos, no money. Draw the mascot from the reference image as a 2D webtoon character (Meri: big round fluffy orange petal-shaped hair, round peach face with rosy cheeks, red sweater with white letter M). Scene: Meri holds a red-and-white umbrella with an obvious torn hole; raindrops pour through the hole onto Meri's head, Meri looks up shocked with sweat drops and comic surprise lines; a red round notification badge with an exclamation mark symbol next to the hole. Background: 2D illustrated rainy night city, deep navy to violet sky, glowing window lights, diagonal rain lines, wet street reflections.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_051746_effc6905-9e74-48b2-84e2-bd1649532fb7.png",
+    "status": "completed"
+  }
+]

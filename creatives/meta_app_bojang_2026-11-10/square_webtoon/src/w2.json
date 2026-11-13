@@ -1,0 +1,32 @@
+[
+  {
+    "created_at": "2026-11-13T05:16:18.879998Z",
+    "display_name": "GPT Image 2.5",
+    "id": "d7c7f21d-ae0e-4dbe-9f08-040aeb74c973",
+    "job_type": "gpt_image_2_5",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_051618_d7c7f21d-ae0e-4dbe-9f08-040aeb74c973_min.webp",
+    "params": {
+      "aspect_ratio": "1:1",
+      "height": 2048,
+      "medias": [
+        {
+          "data": {
+            "id": "9eb650f0-b96a-4bf3-835f-351f12028cfc",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/9eb650f0-b96a-4bf3-835f-351f12028cfc.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "sunburst",
+      "prompt": "Korean webtoon / instatoon 2D illustration style for a mobile app ad, square 1:1: clean bold dark outlines, flat cel shading with soft gradients, bright saturated colors, expressive cute cartoon. NOT 3D. COMPOSITION: the characters and objects are in the LOWER-CENTER from 38% to 86% of the height; the upper 34% contains only background atmosphere (no objects) for a headline; bottom 12% free. No text, no letters, no numbers, no logos, no money, no coins. Draw the mascot from the reference image as a 2D webtoon character (Meri: big round fluffy orange petal-shaped hair like a flower, round peach face with rosy cheeks, red sweater with white letter M), same design but flat 2D cartoon. Scene: a large cartoon smartphone showing a white app list with four rows (icons: hospital cross, pink ribbon, red heart, bandage) with green check circles, except one row with an empty red dashed circle; a red notification badge with an exclamation mark symbol on the phone corner. Meri stands beside it pointing at the empty row with a wink and sparkle effects. Background: 2D illustrated soft sky-blue to lilac gradient with fluffy clouds, sparkles and light rays.",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2048
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_39bWX2YLJjzZNNtAjHJmwIll2cJ/hf_20261113_051618_d7c7f21d-ae0e-4dbe-9f08-040aeb74c973.png",
+    "status": "completed"
+  }
+]
