@@ -1,0 +1,325 @@
+<!-- # 	올케어 꽉 채운 치아보험 -->
+
+<main id="inform" class="submain">
+	<!-- dlpo_wrap과 더블클래스로 해당 상품 클래스(ex 올바른어린이 : class="dlpo_wrap goodChild") 꼭 필요 -->
+	<div class="dlpo_wrap dlpo_teethGood cta_flex">
+		<div>
+			<h2 class="re_type">{{tm.pdInfo.pdNm}}</h2>
+			<div class="tm_main_img_set">
+				<img data-ng-src="{{WEBROOT}}/default/images/renew/img_the_all-teeth-care.png?ver=260625" alt="매년 꽉 채워 보장하는 치아보험 (연간 한도 내 보장)- 준법감시인 심의필 제2026-광고-674호(2026.03.30~2027.03.29)"><!-- 25.01.09 == 접근성 작업 수정 -->
+			</div>
+		</div>
+		<div data-ui-tm-sub id="tm"></div>
+	</div>
+
+	<div class="bottom_scroll">
+		<button type="button" class="bs_body" onclick="inform.bsBodyClick();">
+			<span>더 많은 정보 확인하기</span><i class="icon"></i>
+		</button>
+	</div>
+	
+	<!-- banner_event -->
+	<div class="banner_event">
+		<!--실시간상담원 수-->
+		<div data-ng-include="tm.templete.ctrCntUrl" id="ctrCnt"></div>
+		<a href="javascript:void(0);" data-trigger-info='{"type":"conunseltchk","id":"CTTG1801001"}'><img data-ng-src="/default/images/renew/img_banner_ani_chat.png" alt="보험이 궁금할 때! / 전문상담원과 1:1채팅으로 알아보세요."></a><!-- 25.01.09 == 접근성 작업 수정 -->
+	</div>
+	<!-- //banner_event -->
+
+	<!-- promotion event -->
+	<!-- <div class="prod_event">
+		<div class="bn_event">
+			<p class="btn_img"><a href="#"><img data-ng-src="{{WEBROOT}}/default/images/product/event/img_product_event_sm.jpg" alt="8월 고객정보등록 이벤트. 내가 가입한 계약의 중요한 안내사항은 절대 놓칠 수 없어요!"></a></p>
+			<div class="bn_event_detail">
+				<img data-ng-src="{{WEBROOT}}/default/images/product/event/img_product_event_bg.jpg" alt="메리츠화재 홈페이지에서 8월 한달 동안 고객정보 수정 시 100분을 추첨하여 영화예매권을 드립니다. (정보 수정 시 자동으로 이벤트가 응모됩니다)">
+				<a href="#" class="go_event"><span class="hide_txt">자세히보기</span></a>
+				<a href="#" class="close"><span class="hide_txt">자세히보기 닫기</span></a>
+			</div>
+		</div>
+	</div> -->
+	<!-- //promotion event -->
+
+
+	<!-------------- 내용 -------------->
+	<div class="tab_group">
+		<!-- 탭메뉴 -->
+		<div data-ui-Tab-Menu-Url></div>
+
+		<div class="tab_target">
+			<!-- 상품정보 -->
+			<div class="tabpanel open" role="tabpanel" id="tabPanel01" aria-labelledby="productTab01"><!-- 25.01.10 == 접근성 작업 수정 -->
+				<h3 class="hide_txt">상품정보</h3>
+
+				<div class="form">
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">반복되는 치과 치료비,<br>매년 새롭게 채워지는 한도로<br/>든든하게 준비하세요. </h4>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_all_teeth_care1_new.svg" alt="보철+보존 합산 한도, 매년 700만원 한도 내 보장" aria-describedby="img_txt_01">
+							<div id="img_txt_01" class="visually_hidden_txt">
+								보철+보존 합산 한도
+								매년 700만원 한도내 보장
+								보존치료 : 연간 한도 200만원
+								보철치료 : 연간 한도(특약) 500만원 
+							</div>
+						</div>
+					</div>
+
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">자주하는 보존치료<br>걱정되는 보철치료<br>꼼꼼하게 보장합니다. </h4>
+							<ul class="public_list">
+								<li class="_260323txt">보존치과통합치료비 200만원,<br> 보철치과통합치료비 500만원</li>
+								<li class="_260323txt">최초 계약일로부터 2년 경과 시점 이후 예시</li>
+								<li class="_260323txt">자세한 내용은 보장내용에서 확인하세요. </li>
+							</ul>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_all_teeth_care2_new.svg" aria-describedby="img_txt_02" alt="">
+							<div id="img_txt_02" class="visually_hidden_txt">
+							  치과보존통합치료비 연간 200만원
+							  크라운치료 치아당 30만원
+							  보존 치이당
+							  근관치료 치아당 3만원
+							  아말감, 글래스아이노머 5만원
+							  인레이, 온레이(금, 세라믹, 지르코니아 등) 10만원
+							  레진필링 10만원
+							  그 외 10만원
+
+							  치아보철통합치료비 연간 500만원
+							  보철치료
+							  임플란트 영구치발거 1개당 100만원
+							  틀니 보철물당 연간 1회 100만원
+							  브릿지 영구치발거 1개당 50만원
+							  특정 임플란트 치조골이식술 치료 영구치발거 1개당 10만원
+							  영구치상실 영구치발거 1개당 2만원
+							</div>
+						</div>
+					</div>
+
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">
+								아프기 전 관리도 빠짐없이!<br>
+								치아촬영비<span class="_fnt32">(X-ray 및 파노라마)</span>와<br/>
+								치석제거<span class="_fnt32 _letspce">(스케일링)</span>치료비 보장<span class="_txt260128 _fnt18 _letspce">(특약)</span>
+							</h4>
+							<ul class="public_list">
+								<li class="_260323txt">치석제거(스케일링)치료비는 연간 1회 보장 </li>
+								<li class="_260323txt">치아촬영비(X-ray 및 파노라마)는 촬영 1회당 보장 </li>
+							</ul>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_all_teeth_care3_new.svg" alt="치석제거+치아 촬영비" aria-describedby="img_txt_03">
+							<div id="img_txt_03" class="visually_hidden_txt">
+								치석제거+치아 촬영비
+								치석제거 (스케일링)치료 연간 1회 보장
+								치아촬영비 (X-ray및 파노라마) 촬영 1회당 보장
+							</div>
+						</div>
+					</div>
+
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">2세부터 70세까지 <br>내 나이에 꼭 필요한 <br/>치과치료 보장, <br>맞춤 플랜으로 확인해보세요. </h4>
+							<ul class="public_list">
+								<li class="_260323txt">치과보존통합치료비는 50, 100, 200만원 중 선택 </li>
+								<li class="_260323txt _letspce01">치과보철통합치료비는 100, 200, 300, 500만원 중 선택</li>
+								<li class="_260323txt">치아촬영비(X-ray 및 파노라마),<br> 치석제거(스케일링) 치료도 추가(특약)</li>
+							</ul>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_all_teeth_care4_new.svg?ver=261109" alt="" aria-describedby="img_txt_04">
+							<div id="img_txt_04" class="visually_hidden_txt">
+								유치부터 꼼꼼한 치아관리가 필요한 어린이
+								- 치과보존통합치료비 200만원
+								- 치아촬영비(X-ray 및 파노라마) 1만원(특)
+								- 치석제거(스케일링) 치료 1만(특)
+
+								치아가 건강할 때 미리미리 올케어 보장 플랜
+								- 치과보존통합치료비 200만원
+								- 치과보철통합치료비 500만원
+
+								큰 돈 드는 임프란트 대비 보철든든 플랜
+								- 치과보철통합치료비 500만원
+								- 치과보존통합치료비 500만원
+
+								부담없는 보험료로 가입하고 싶은 시니어
+								- 치과보철통합치료비 100만원
+								- 치과보존통합치료비 50만원
+							</div>
+						</div>
+					</div>
+
+					<p class="txt_review">{{tm.pdInfo.dlbTmsCon}}</p>
+
+					<div class="preconfirm">
+						<button type="button" data-ng-click="showInfo()">가입예시</button>
+						<!-- 약관, 알아두어야 할사항 -->
+						<div class="btnset" data-ui-tm-pd-footer></div>
+						<!-- //약관, 알아두어야 할사항 -->
+					</div>
+
+					<!-- 비교할수록 믿을 수 있는 브랜드 역시 메리츠화재입니다. -->
+					<div data-ui-Counter-Url></div>
+				</div>
+
+				<!-- 최근 한 달간 많은 분들이 봤어요 -->
+				<div data-ui-Banner-Url></div>
+			</div>
+			<!-- //상품정보 -->
+
+			<!-- 보장내용 -->
+			<div class="tabpanel" role="tabpanel" id="tabPanel02" aria-labelledby="productTab02"><!-- 25.01.10 == 접근성 작업 수정 -->
+				<h3 class="hide_txt">보장내용</h3>
+
+				<div class="form_other">
+					<h4 class="inform_subtitle">기본계약</h4>
+					<div class="tbl_data01 cancer_table">
+						<table>
+							<caption>기본계약 : 담보명, 보장내용, 지급금액 항목으로 구성</caption>
+							<colgroup>
+								<col style="width:440px">
+								<col>
+								<col style="width:240px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">담보명</th>
+									<th scope="col">보장내용</th>
+									<th scope="col" class="txt_r">지급금액</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="bold_title" rowspan="6">
+										<b>갱신형</b><br/><b>치과보존통합치료비</b>
+									</td>
+									<td colspan="2">
+										치과보존통합치료보장개시일 이후 상해 또는 치아관련 질병을 직접적인 원인으로 「치과보존통합치료」를 진단확정 받고, 해당 유치 및 영구치에 「치과보존통합치료」를 받은 경우 연간 200만원 한도 내에서 통합치료항목별 지급금액을 지급<br>
+										※ 가입금액 200만원 기준, 1년 이내 연간 100만원 한도 내 보장 <br>
+										※ 질병은 91일부터 보장, 1년 이내 50% 
+									</td>
+								</tr>
+								<tr>
+									<td>- 근관치료</td>
+									<td class="txt_r">치아당 3만 원</td>
+								</tr>
+								<tr>
+									<td>- 충전치료 (아말감 · 글래스아이노머)</td>
+									<td class="txt_r">치아당 5만 원</td>
+								</tr>
+								<tr>
+									<td>- 충전치료(레진필링, 인레이 · 온레이 등)</td>
+									<td class="txt_r">치아당 10만 원</td>
+								</tr>
+								<tr>
+									<td>- 크라운 치료</td>
+									<td class="txt_r">치아당 30만 원</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td class="txt_r">(대상 치아 : 유치 및 영구치)</td>
+								</tr>
+								<tr>
+									<td class="bold_title" rowspan="7">갱신형 치과보철통합치료비</td>
+									<td colspan="2">
+										치과보철통합치료보장개시일 이후 상해 또는 치아관련 질병을 직접적인 원인으로 「치과보철통합치료」를 진단확정 받고, 해당 영구치에 「치과보철통합치료」를 받은 경우 연간 500만원 한도 내에서 통합치료항목별 지급금액을 지급<br>
+										※ 가입금액 500만원 기준, 2년 이내 연간 250만원 한도 내 보장<br>
+										※ 질병은 91일부터 보장, 2년 이내 50% 
+									</td>
+								</tr>
+								<tr>
+									<td>- 틀니</td>
+									<td class="txt_r">보철물당 100만 원(연간 1회한)</td>
+								</tr>
+								<tr>
+									<td>- 임플란트</td>
+									<td class="txt_r">영구치 발거 1개당 100만 원</td>
+								</tr>
+								<tr>
+									<td>- 브릿지</td>
+									<td class="txt_r">영구치 발거 1개당  50만 원</td>
+								</tr>
+								<tr>
+									<td>- 특정임플란트 치조골이식술 치료</td>
+									<td class="txt_r">영구치 발거 1개당 10만 원</td>
+								</tr>
+								<tr>
+									<td>- 영구치 상실</td>
+									<td class="txt_r">영구치 발거 1개당 2만 원</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td class="txt_r">(대상 치아 : 영구치)</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<h4 class="inform_subtitle mt50">선택계약</h4>
+					<div class="tbl_data01 cancer_table">
+						<table>
+							<caption>선택계약 : 담보명, 보장내용, 지급금액 항목으로 구성</caption>
+							<colgroup>
+								<col style="width:440px">
+								<col>
+								<col style="width:200px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">담보명</th>
+									<th scope="col">보장내용</th>
+									<th scope="col" class="txt_r">지급금액</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="bold_title">갱신형 치석제거(스케일링)치료비</td>
+									<td>
+										보장개시일 이후 치석제거(스케일링)치료를 진단 확정받고 치석제거(스케일링) 치료를 받은 경우 보험가입금액 지급(연간 1회한도)<br/>※ 가입 후 91일 이후 보장
+									</td>
+									<td class="txt_r">1만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">갱신형 치아촬영비(X-ray 및 파노라마)</td>
+									<td>
+										보장개시일 이후 질병 또는 상해를 직접적인 원인으로 치아촬영(X-ray 및 파노라마)을 한 경우에는 각각의 촬영 1회당 보험가입금액 지급<br>※ 질병으로 인한 치아촬영의 경우 91일부터 보장
+									</td>
+									<td class="txt_r">1만 원</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<ul class="list_typeEx txt333 mt20">
+						<li>단, 피보험자의 직무나 직업, 기타사항에 따라 가입이 제한되거나 거절될 수 있습니다.</li>
+						<li>전문암벽등반 등 직업, 직무, 동호회 활동 중 발생한 상해사고는 보상하지 않습니다.</li>
+					</ul>
+				</div>
+				<dl class="list_typeEx3 wrap">
+					<dt><i></i><span>알아두실 사항</span></dt>
+					<dd>
+						<ul>
+							<li>상기 가입예시는 이해를 돕기 위한 것으로, 성별, 연령별로 가입 가능한 담보 및 가입금액은 달라질 수 있습니다. 예시된 담보 외에 가입 가능한 담보들은 전문 상담원을 통해 자세히 안내 받을 수 있습니다.</li>
+							<li>자세한 설명은 약관 및 상품설명서를 참조하시기 바랍니다.</li>
+							<li>PDF 문서가 보이지 않는 경우 Acrobat Reader를 설치해주세요. <a href="https://get.adobe.com/reader/?loc=kr"
+									class="btn btn_w03" title="새창duffla" target="_blank"><i class="i_pdf"></i><span>아크로벳리더 다운로드</span></a><!-- 25.01.09 == 접근성 작업 수정 -->
+							</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			<!-- //보장내용 -->
+		</div>
+	</div>
+	<!-------------- //내용 -------------->
+
+	<!-- 하단 고정 - 보험료 확인하기 -->
+	<div data-ui-Alarm-Url></div>
+</main>
+
+
+<script>
+	inform.headerFixed();
+</script>
