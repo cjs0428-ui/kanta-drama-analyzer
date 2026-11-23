@@ -1,0 +1,335 @@
+<!-- # 	올바른 100세 건강보험 Renew -->
+
+<main id="inform" class="submain">
+	<!-- dlpo_wrap과 더블클래스로 해당 상품 클래스(ex 올바른어린이 : class="dlpo_wrap goodChild") 꼭 필요 -->
+	<div class="dlpo_wrap dlpo_healthcare ty02 cta_flex">
+		<div>
+			<h2 class="re_type">{{tm.pdInfo.pdNm}}</h2>
+			<div class="tm_main_img_set">
+				<img data-ng-src="{{WEBROOT}}/default/images/renew/img_life_health_care_main.png?ver_260608" alt="100세까지 보험료 인상 없는 비갱신형 건강보험 (100세 만기, 비갱신형 가입 시) - 준법감시인 심의필 제2026-광고-1375호(2026.06.05~2027.06.04)"><!-- 25.01.09 == 접근성 작업 수정 -->
+			</div>
+		</div>
+		<div data-ui-tm-sub id="tm"></div>
+	</div>
+
+	<div class="bottom_scroll">
+		<button type="button" class="bs_body" onclick="inform.bsBodyClick();">
+			<span>더 많은 정보 확인하기</span><i class="icon"></i>
+		</button>
+	</div>
+
+	<!-- banner_event -->
+	<div class="banner_event">
+		<!--실시간상담원 수-->
+		<div data-ng-include="tm.templete.ctrCntUrl" id="ctrCnt"></div>
+		<a href="javascript:void(0);" data-trigger-info='{"type":"conunseltchk","id":"CTTG1801001"}'><img data-ng-src="/default/images/renew/img_banner_ani_chat.png?ver=250225" alt="보험이 궁금할 때! / 전문상담원과 1:1채팅으로 알아보세요."></a><!-- 25.01.09 == 접근성 작업 수정 -->
+	</div>
+
+	<!-- promotion event -->
+	<div class="prod_event" data-ui-prod-event></div>
+
+
+	<!-------------- 내용 -------------->
+	<div class="tab_group">
+		<!-- 탭메뉴 -->
+		<div data-ui-Tab-Menu-Url></div>
+
+		<div class="tab_target">
+			<!-- 상품정보 -->
+			<div class="tabpanel open" role="tabpanel" id="tabPanel01" aria-labelledby="productTab01"><!-- 25.01.10 == 접근성 작업 수정 -->
+				<h3 class="hide_txt">상품정보</h3>
+
+				<div class="form">
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">보험료 오를 걱정 없이<br> 100세까지 쭉 보장<br> <small>(100세 만기, 비갱신형 가입 시)</small></h4>
+							<ul class="public_list">
+								<li>암, 뇌혈관질환, 허혈성심장질환 진단비에 각종 수술비까지 보험 하나로 든든하게 대비하세요. (특약)</li>
+							</ul>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_health_care01.svg" alt="100세까지 보장">
+						</div>
+					</div>
+
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">어떤 치료를 받더라도<br> 진단비는 든든하게! <small>(특약)</small></h4>
+							<ul class="public_list">
+								<li>어떤 암이든 100세까지 보험료 오를 걱정 없이 암 진단비에 대비할 수 있어요. (100세 만기 가입)</li>
+								<li>보장범위가 넓은 뇌혈관질환, 허혈성심장질환도 진단비로 보장받으세요.<br> (특약, 1년 이내 50% 보장)</li>
+							</ul>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_health_care02.svg" alt="">
+						</div>
+					</div>
+
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">여러 번 보장 받는 수술비로<br> 주요 질병에 대비하세요 <small>(특약)</small></h4>
+							<ul class="public_list">
+								<li>큰 질병, 큰 수술일수록 든든하게 보장받는 것이 중요합니다.</li>
+								<li>운전자를 위한 보장도 건강보험 하나로 대비하면 보험료를 절약할 수 있어요.</li>
+							</ul>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_health_care03.svg" aria-describedby="img_txt_01" alt="건강보험 보장내용의 장점과 차이점을 설명하는 이미지"><!-- 25.01.09 == 접근성 작업 수정 -->
+							<div id="img_txt_01" class="visually_hidden_txt">
+								<table>
+									<thead>
+										<tr>
+											<th></th>
+											<th>장점</th>
+											<th>차이점</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>뇌혈관질환/허혈성심장질환수술비</td>
+											<td>관혈, 비관혈 구분 없음</td>
+											<td>수술 시 1회 당 1년 이내 50% 1년 이후 100%</td>
+										</tr>
+										<tr>
+											<td>5대질환 관혈수술비 (연간 1회한)</td>
+											<td>가장 든든한 보장금액</td>
+											<td>각 질병 당 연간 1회 1년 이내 50% 1년 이후 100%</td>
+										</tr>
+										<tr>
+											<td>수술비 (1~7종, 연간 3회한) [질병]</td>
+											<td>가장 다양한 수술 보장</td>
+											<td>하나의 수술코드 당 연간 3회 가입 즉시 100%</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="article_body">
+						<div class="article">
+							<h4 class="inform_title">보험료가 부담된다면,<br>해약환급금 미지급형으로 <br>선택하세요</h4>
+							<ul class="public_list">
+								<li>납입기간 중에 보험을 해지할 경우 해약환급금이 없는 대신, 월 납입 보험료를 더 절약할 수 있습니다.</li>
+							</ul>
+						</div>
+						<div class="inform_img">
+							<img data-ng-src="{{WEBROOT}}/default/images/renew/detail/p_health_care04.svg" alt="보험료▽, 해약환급금 미지급형">
+						</div>
+					</div>
+
+					<p class="txt_review">{{tm.pdInfo.dlbTmsCon}}</p>
+
+					<div class="preconfirm">
+						<button type="button" data-ng-click="showInfo()">가입예시</button>
+						<!-- 약관, 알아두어야 할사항 -->
+						<div class="btnset" data-ui-tm-pd-footer></div>
+						<!-- //약관, 알아두어야 할사항 -->
+					</div>
+
+					<!-- 비교할수록 믿을 수 있는 브랜드 역시 메리츠화재입니다. -->
+					<div data-ui-Counter-Url></div>
+				</div>
+
+				<!-- 최근 한 달간 많은 분들이 봤어요 -->
+				<div data-ui-Banner-Url></div>
+			</div>
+			<!-- //상품정보 -->
+
+			<!-- 보장내용 -->
+			<div class="tabpanel" role="tabpanel" id="tabPanel02" aria-labelledby="productTab02"><!-- 25.01.10 == 접근성 작업 수정 -->
+				<h3 class="hide_txt">보장내용</h3>
+
+				<div class="form_other">
+					<h4 class="inform_subtitle">기본계약</h4>
+					<div class="tbl_data01 cancer_table">
+						<table>
+							<caption>기본계약 : 담보명, 보장내용, 지급금액 항목으로 구성</caption>
+							<colgroup>
+								<col style="width:440px">
+								<col>
+								<col style="width:160px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">담보명</th>
+									<th scope="col">보장내용</th>
+									<th scope="col" class="txt_r">지급금액</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="bold_title">5대질환(심장, 뇌혈관, 신부전, 간, 폐질환)관혈수술비(연간1회한)</td>
+									<td>5대질환(심장, 뇌혈관, 신부전, 간, 폐질환)으로 진단 확정 되고 치료를 직접적인 목적으로 관혈수술 시<br>
+										(1년이내 50%보장, 각 질병당 연간 1회한)
+									</td>
+									<td class="txt_r">500만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">일반상해사망</td>
+									<td>일반 상해로 사망 시</td>
+									<td class="txt_r">2,000만 원</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<h4 class="inform_subtitle mt50">선택계약</h4>
+					<div class="tbl_data01 cancer_table">
+						<table>
+							<caption>선택계약 : 담보명, 보장내용, 지급금액 항목으로 구성</caption>
+							<colgroup>
+								<col style="width:440px">
+								<col>
+								<col style="width:160px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">담보명</th>
+									<th scope="col">보장내용</th>
+									<th scope="col" class="txt_r">지급금액</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="bold_title">뇌졸중진단비</td>
+									<td>뇌졸중으로 진단 확정 시<br> (최초 1회한, 1년이내 50%보장)</td>
+									<td class="txt_r">1,000만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">급성심근경색증진단비</td>
+									<td>급성심근경색증으로 진단 확정 시<br> (최초 1회한, 1년이내 50%보장)</td>
+									<td class="txt_r">1,000만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">뇌혈관질환진단비</td>
+									<td>뇌혈관질환으로 진단확정 시<br>(최초 1회한, 1년이내 50%보장)</td>
+									<td class="txt_r">500만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">허혈성심장질환진단비</td>
+									<td>허혈성심장질환으로 진단 확정 시<br> (최초 1회한, 1년이내 50%보장)</td>
+									<td class="txt_r">500만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">암진단비 (유사암제외)</td>
+									<td>
+										암보장개시일 이후 암(유사암 제외)으로 진단 확정 시<br> (최초 1회한, 소액암 1년 이내 20%, 암(유사암 및 소액암제외) 1년 이내 50% 보장)<br>
+										※ 소액암 : 유방암, 자궁체부암, 자궁경부암, 방광암, 전립선암<br>
+										※ 암보장개시일은 계약일로부터 그 날을 포함하여 90일이 지난 날의 다음날 부터 입니다.
+									</td>
+									<td class="txt_r">1,000만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">유사암 진단비</td>
+									<td>
+										유사암으로 진단 확정 시<br>(각각 최초 1회한, 1년 이내 50% 보장)<br>
+										※ 유사암: 제자리암, 기타피부암, 경계성종양, 갑상선암
+									</td>
+									<td class="txt_r">100만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">희귀난치성 7대질환진단비</td>
+									<td>
+										보험 기간 중 희귀난치성7대질환으로 진단 확정 시<br> (최초 1회한, 1년이내 50% 보장) <br>
+										※ 희귀난치성7대질환 :  재생불량성 빈혈, 운동신경세포병, 파킨슨병, 심근질환(심내막탄력섬유증 제외), 모야모야병, 전신홍반루프스, 만성콩팥병(5기)
+									</td>
+									<td class="txt_r">500만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">뇌혈관질환수술비</td>
+									<td>뇌혈관질환으로 진단 확정 되고 그 치료를 직접적인 목적으로 수술 시<br>(수술 1회당, 1년이내 50%보장)</td>
+									<td class="txt_r">500만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">허혈성심장질환수술비</td>
+									<td>허혈성심장질환으로 진단 확정 되고 그 치료를 직접적인 목적으로 수술 시<br>(수술 1회당, 1년이내 50%보장)</td>
+									<td class="txt_r">500만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">수술비(1-7종,연간3회한)[질병]</td>
+									<td>질병의 직접적인 치료를 목적으로 약관에서 정한 수술을 받은 경우<br>
+										※ 1회의 입원당 또는 1회의 통원당 1회의 수술에 한하여 보장하며, 하나의 수술 코드당 연간 3회에 한하여 보장<br>
+										※ 동일한 수술코드에 대한 보험금 지급은 직전 퇴원/통원일의 다음날부터 다음 입원일 또는 통원일까지 30일이 경과해야 함
+									</td>
+									<td class="txt_r">
+										1종 15만 원<br>
+										2종 15만 원<br>
+										3종 25만 원<br>
+										4종 40만 원<br>
+										5종 100만 원<br>
+										6종 200만 원<br>
+										7종 500만 원
+									</td>
+								</tr>
+								<tr>
+									<td class="bold_title">질병 중환자실 입원일당 (1일이상)</td>
+									<td>질병으로 중환자실에 입원하여 치료를 받은 경우 최초 입원 일부터 입원 1일당<br> (1회 입원당 180일 한도)</td>
+									<td class="txt_r">5만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">일반상해 중환자실 입원일당 (1일이상)</td>
+									<td>일반상해로 중환자실에 입원하여 치료를 받은 경우 최초 입원 일부터 입원 1일당<br> (1회 입원당 180일 한도)</td>
+									<td class="txt_r">5만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">중대한 특정상해수술비</td>
+									<td>상해사고로 뇌손상 또는 내장손상을 입고 사고일로부터 180일이내에 그 치료를 직접적인 목적으로 개두수술, 개흉수술, 개복수술 시<br>(최초 1회한)</td>
+									<td class="txt_r">2,000만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">상해수술비</td>
+									<td>
+										상해의 직접적인 결과로써 수술 시 하나의 상해당 지급금액 지급<br>
+										※ 같은 상해로 두 종류 이상의 상해수술을 받거나 같은 종류의 상해수술을 2회 이상 받은 경우에는 하나의 상해수술비만 지급
+									</td>
+									<td class="txt_r">50만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">깁스치료비</td>
+									<td>상해 또는 진단 확정된 질병으로 인하여 깁스 치료를 받았을 경우<br> (석고 붕대 또는 섬유유리붕대를 고정할 부분의 일측면 또는 양측면에 착용시키고 대주는 치료법은 제외)</td>
+									<td class="txt_r">30만 원</td>
+								</tr>
+								<tr>
+									<td class="bold_title">신골절치료비 (치아파절 포함)</td>
+									<td>
+										상해를 입고 그 직접적인 결과로 약관에서 정한 신골절로 진단 확정 시 신체 부위별 지급률에 따라 한도 내 보장<br>(1사고당)<br>
+										※ 동일 사고에 의해 2종류 이상 발생 시에는 각각에 대하여 지급률표에 따른 합계액을 가입금액 한도로 지급하며, 신체 동일부위에 대해서는 가장 높은 지급률을 적용합니다.
+									</td>
+									<td class="txt_r">100만 원 X 지급률</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<ul class="list_typeEx txt333 mt20">
+						<li>암진단비(유사암제외)에서 암(유사암제외)이란 약관에서 정한 악성 신생물로 분류되는 기타 피부의 악성신생물, 갑상선의 악성신생물을 제외한 암을 말하며, 암보장개시일은 최초 보험계약일부터 90일이 되는 날의 다음 날 입니다. </li>
+						<li>상기 가입예시는 이해를 돕기 위한 것으로 기본계약 이외의 선택특약은 자유롭게 선택하여 가입할 수 있습니다. 다만, 피보험자의 직업, 직무, 기타사항으로 인하여 인수가 제한적이거나 불가능할 수 있습니다.</li>
+					</ul>
+				</div>
+				<dl class="list_typeEx3 wrap">
+					<dt><i></i><span>알아두실 사항</span></dt>
+					<dd>
+						<ul>
+							<li>상기 가입예시는 이해를 돕기 위한 것으로, 성별, 연령별로 가입 가능한 담보 및 가입금액은 달라질 수 있습니다. 예시된 담보 외에 가입 가능한 담보들은 전문 상담원을
+								통해 자세히 안내 받을 수 있습니다.</li>
+							<li>자세한 설명은 약관 및 상품설명서를 참조하시기 바랍니다.</li>
+							<li>PDF 문서가 보이지 않는 경우 Acrobat Reader를 설치해주세요. <a href="https://get.adobe.com/reader/?loc=kr"
+									class="btn btn_w03" title="새창열림" target="_blank"><i class="i_pdf"></i><span>아크로벳리더 다운로드</span></a><!-- 25.01.09 == 접근성 작업 수정 -->
+							</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			<!-- //보장내용 -->
+		</div>
+	</div>
+	<!-------------- //내용 -------------->
+
+	<!-- 하단 고정 - 보험료 확인하기 -->
+	<div data-ui-Alarm-Url></div>
+</main>
+
+
+<script>
+	inform.headerFixed();
+</script>
