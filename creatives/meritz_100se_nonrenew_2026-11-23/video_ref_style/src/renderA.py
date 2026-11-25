@@ -29,10 +29,10 @@ for s in range(9):
             if t>=32.9: img=over(img,ED,min(1,(t-32.9)/0.4)); img=over(img,NA[s])
             if t>=33.2:
                 k2=min(1,(t-33.2)/0.35); sc=0.85+0.15*k2
-                M=cv2.getRotationMatrix2D((540,920),0,sc); img=over(img,cv2.warpAffine(EL,M,(W,H),borderValue=(0,0,0,0)),k2)
+                M=cv2.getRotationMatrix2D((540,830),0,sc); img=over(img,cv2.warpAffine(EL,M,(W,H),borderValue=(0,0,0,0)),k2)
             if t>=33.6:
                 k3=min(1,(t-33.6)/0.25); sc=0.7+0.3*min(1,k3*1.2)
-                M=cv2.getRotationMatrix2D((540,1100),0,sc); img=over(img,cv2.warpAffine(EC,M,(W,H),borderValue=(0,0,0,0)),k3)
+                M=cv2.getRotationMatrix2D((540,1010),0,sc); img=over(img,cv2.warpAffine(EC,M,(W,H),borderValue=(0,0,0,0)),k3)
         ci=[j for j,(x,y) in enumerate(cap) if x-0.05<=t<y+0.05]
         if ci: j=ci[0]; img=over(img,CA[j],1.0)
         enc.stdin.write(np.clip(img,0,255).astype(np.uint8).tobytes())
